@@ -1,0 +1,59 @@
+---
+slug: what-is-blue-collar-parts
+title: "What Blue Collar Parts Is"
+description: "Blue Collar Parts builds serialized inspection decals and digital service records for commercial trucks, trailers, generators, and marine equipment. What the platform does, who it is for, and what it deliberately does not do."
+track: product
+kind: article
+order: 10
+status: in-development
+isRegulatoryAdjacent: false
+publishedAt: 2026-09-01
+updatedAt: 2026-09-01
+cfr: []
+related:
+  - how-the-serialized-decal-works
+  - bcp-and-part-396-recordkeeping
+  - what-is-commercial-vehicle-inspection
+---
+
+Blue Collar Parts (shopbluecollarparts.com) sells **serialized inspection decals paired with a digital service record**. A technician completes an inspection or service on a piece of equipment, binds a serialized QR decal to that record, and the decal becomes a permanent scannable pointer to what was actually done.
+
+The problem it addresses is not the inspection. It is what happens to the paperwork afterward.
+
+## The problem
+
+An annual inspection produces a report. Under [49 CFR 396.21(b)(1)](/kb/dot-inspection-recordkeeping) that report has to survive fourteen months and be produceable on demand by an authorized official. In practice it is a carbon copy in a folder in a shop office, and the obligation to produce it sits with the carrier operating the vehicle — **not** with the shop that performed it, even if that shop has since closed or lost the file.
+
+So the failure mode is rarely "the inspection was done wrong." It is "the inspection was done correctly eighteen months ago and nobody can find the paper."
+
+## What the platform does
+
+Four things, in order:
+
+1. **Inspection and service entry.** A technician fills out the inspection or service record on a phone, in the field. Defect data is captured per component rather than as a single pass/fail verdict.
+2. **Serialized decal binding.** The technician scans a decal from their own kit. That serial is bound to the record they just completed, one to one.
+3. **A public, scannable record.** Anyone who scans the QR on that decal — a driver, a fleet manager, an official, a prospective buyer — lands on the as-filed record for that specific serial.
+4. **Distribution to the equipment owner.** The record can be published and sent to the customer, so the person who owns the equipment holds a copy independent of the shop.
+
+The decal is the index. The record is the thing that matters.
+
+## What equipment it covers
+
+Trucks and trailers, where the [federal annual inspection](/kb/annual-dot-inspection-requirements) applies, and generators and marine equipment, where interval-based preventive maintenance applies but no federal inspection regime does. The same serialization and record mechanics serve both; only the form content differs.
+
+## What it deliberately does not do
+
+This matters as much as the feature list, and it is stated plainly because ambiguity here is a liability:
+
+- **It does not make a regulatory determination.** The platform can record that a component was measured and what the measurement was. It does not certify that a vehicle is compliant. A [qualified inspector under 49 CFR 396.19](/kb/who-can-perform-dot-inspection) makes that determination; the platform records it.
+- **It does not replace the inspection report.** A decal under [49 CFR 396.17(c)(2)](/kb/dot-inspection-decal-requirements) is documentation *based on* a report. The report still has to exist and still has to be retained.
+- **It does not verify inspector qualification.** Qualification evidence under §396.19(b) and §396.25(e) is the carrier's recordkeeping obligation.
+- **No machine output publishes a record.** Where the platform uses automated processing to assist a technician, the output is held beside the technician's own input for human review. Nothing is published, and no regulatory conclusion is reached, without a person approving it.
+
+## Availability
+
+The platform is in active development. Pages in this section carry a status marker: **in development** means the behavior described is built and specified but not yet generally available. Nothing here should be read as a claim that a feature is live in production today.
+
+---
+
+*Product behavior described here is subject to change. Regulatory content is informational only and is not legal advice — see [49 CFR Part 396](https://www.ecfr.gov/current/title-49/part-396).*

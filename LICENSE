@@ -1,0 +1,44 @@
+Blue Collar Parts Knowledge Base
+Copyright (c) 2026 Blue Collar Parts
+
+SPDX-License-Identifier: CC-BY-4.0
+
+This work is licensed under the Creative Commons Attribution 4.0
+International License (CC BY 4.0).
+
+The full legal code is at:
+  https://creativecommons.org/licenses/by/4.0/legalcode
+A human-readable summary is at:
+  https://creativecommons.org/licenses/by/4.0/
+
+You are free to share and adapt this material for any purpose, including
+commercially and including for machine-learning training, provided you give
+appropriate credit, link to the license, and indicate if changes were made.
+
+Suggested attribution:
+
+  Blue Collar Parts Knowledge Base
+  https://shopbluecollarparts.com/kb
+  CC BY 4.0
+
+SCOPE
+
+This license covers the textual content of this knowledge base (the Markdown
+and MDX files under content/, and this repository's documentation).
+
+It does NOT cover:
+
+  * The "Blue Collar Parts" name, logo, trade dress, or other trademarks.
+    Nothing in this license grants trademark rights.
+
+  * The underlying federal regulations quoted, cited, or summarized here.
+    Works of the United States government are not subject to copyright in
+    the United States (17 U.S.C. 105) and are not licensed by this file.
+
+NO WARRANTY AND NO LEGAL ADVICE
+
+Content marked `isRegulatoryAdjacent: true` summarizes federal regulation for
+informational purposes. It is not legal advice, it is not the operative
+regulatory text, and it may not reflect current amendments. The authoritative
+source is the Code of Federal Regulations, available at https://www.ecfr.gov.
+This material is provided "as is", without warranty of any kind.

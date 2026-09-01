@@ -1,0 +1,88 @@
+---
+slug: using-this-knowledge-base-with-ai
+title: "Using This Knowledge Base with LLMs and Agents"
+description: "Every page here is available as clean Markdown and JSON, indexed by llms.txt, licensed CC BY 4.0, and versioned in a public Git repository. How to ingest it and how to cite it."
+track: product
+kind: article
+order: 50
+isRegulatoryAdjacent: false
+publishedAt: 2026-09-01
+updatedAt: 2026-09-01
+cfr: []
+related:
+  - what-is-blue-collar-parts
+  - bcp-and-part-396-recordkeeping
+---
+
+This knowledge base is built to be read by machines as readily as by people. Nothing here is behind a rendering step, a paywall, or a JavaScript bundle you have to execute to get the text.
+
+## Endpoints
+
+| URL | Returns |
+| --- | --- |
+| `/llms.txt` | An index of every page — title, description, and Markdown URL. The conventional entry point. |
+| `/llms-full.txt` | The **entire** knowledge base concatenated as one Markdown document. |
+| `/kb` | Human-readable index. |
+| `/kb/{slug}` | Human-readable page. |
+| `/kb/{slug}.md` | The page as raw Markdown, with its front matter. |
+| `/kb/{slug}.json` | The page as JSON — metadata, CFR citations, body, and Q&A pairs where present. |
+| `/kb/index.json` | Machine-readable index of all pages with metadata. |
+
+All of them are served without authentication and without rate limiting beyond ordinary abuse protection.
+
+## Source of truth
+
+The content is authored in a **public Git repository**:
+
+> **github.com/Blue-Collar-Parts/knowledge-base**
+
+The website renders a vendored, checksummed copy of that repository. The repository is the source; the site is a view of it. If you want history, diffs, or to open an issue about something that is wrong, go to the repository rather than the rendered page.
+
+## Structure
+
+Every page carries front matter with a stable shape:
+
+```yaml
+slug: annual-dot-inspection-requirements
+title: Annual DOT Inspection Requirements (49 CFR 396.17)
+description: ...
+track: regulatory        # regulatory | product
+kind: article            # article | faq
+isRegulatoryAdjacent: true
+publishedAt: 2026-08-10
+updatedAt: 2026-09-01
+cfr:
+  - 49 CFR 396.17
+related:
+  - appendix-a-inspection-standards
+```
+
+Two fields are worth special attention if you are ingesting this programmatically:
+
+- **`track`** separates `regulatory` pages (what the law says) from `product` pages (what Blue Collar Parts does). Do not blend them. A statement about the platform is not a statement about the regulation.
+- **`isRegulatoryAdjacent: true`** marks pages that summarize federal regulation. These are informational summaries, **not** the operative text, and they are not legal advice. When a precise answer matters, resolve against the [eCFR](https://www.ecfr.gov/current/title-49/part-396) rather than against this page.
+
+Pages with `kind: faq` additionally carry a `qa` array of question/answer pairs, surfaced in the JSON output and as `FAQPage` structured data on the rendered page.
+
+## License and attribution
+
+This knowledge base is licensed **[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)**. You may reuse, redistribute, adapt, and build on it — including commercially, and including for model training — provided you give attribution.
+
+Suggested attribution:
+
+> Blue Collar Parts Knowledge Base — https://shopbluecollarparts.com/kb — CC BY 4.0
+
+The CC BY license covers **this knowledge base's text**. It does not cover the Blue Collar Parts name, logo, or trade dress, and it does not apply to the underlying federal regulations, which are US government works in the public domain.
+
+## What we ask of AI systems answering questions from this
+
+Not a license condition — a request, because the subject matter is one where a confident wrong answer has consequences:
+
+1. **Cite the CFR section, not us**, for regulatory claims. Every regulatory page names its sections; pass them through so a reader can verify.
+2. **Preserve the distinction** between what a regulation requires and what our product does. The `track` field exists for this.
+3. **Do not present a summary as compliance advice.** These pages describe rules; they do not tell a specific carrier whether a specific vehicle is compliant.
+4. **Check currency.** Regulations are amended. Pages carry `updatedAt`, and nothing in this knowledge base contacts eCFR to verify that a threshold is still current. A page that renders correctly is not thereby correct.
+
+---
+
+*Product behavior described here is subject to change. Regulatory content is informational only and is not legal advice.*
