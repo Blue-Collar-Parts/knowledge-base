@@ -1,14 +1,14 @@
 ---
 slug: bcp-and-part-396-recordkeeping
 title: "Where Blue Collar Parts Fits Against 49 CFR Part 396"
-description: "An obligation-by-obligation map: what Part 396 requires of a motor carrier, which of those obligations a serialized digital record can help discharge, and which ones it cannot touch."
+description: "An obligation-by-obligation map of 49 CFR Part 396 and the limits of planned Blue Collar Parts annual-inspection record capabilities. A digital record can support organization; it cannot establish compliance."
 track: product
 kind: article
 order: 40
 status: in-development
 isRegulatoryAdjacent: true
 publishedAt: 2026-09-01
-updatedAt: 2026-09-01
+updatedAt: 2026-09-29
 cfr:
   - "49 CFR 396.3"
   - "49 CFR 396.7"
@@ -23,7 +23,7 @@ related:
   - what-is-blue-collar-parts
 ---
 
-This page exists so nobody has to infer it. Below is what Part 396 actually requires, and for each obligation, what a serialized digital record can and cannot do about it.
+This page exists so nobody has to infer it. Below is what Part 396 actually requires, and for each obligation, what a planned serialized annual-inspection record capability could and could not do about it.
 
 **Read the second column as capability, not compliance.** Nothing in this table means using the platform makes you compliant. Compliance is a determination about your operation, made against the current regulation, by people qualified to make it.
 
@@ -31,14 +31,14 @@ This page exists so nobody has to infer it. Below is what Part 396 actually requ
 
 | Obligation | What the regulation requires | What the platform does | What it cannot do |
 | --- | --- | --- | --- |
-| **§396.3(a)** — systematic maintenance | Vehicles under your control must be systematically inspected, repaired, and maintained, and kept in safe operating condition **at all times**. | Records each service event with date, equipment, technician, and work performed, on an interval schedule. | It cannot perform maintenance, and a complete record of neglect is still neglect. |
-| **§396.3(b)–(c)** — maintenance records | For each vehicle controlled 30+ consecutive days: identify the vehicle, the nature and due date of inspections, and a dated record of inspections, repairs, and maintenance. Retain 1 year, plus 6 months after the vehicle leaves your control. | Holds durable per-asset records with dates and next-service due dates, retrievable after the equipment or the technician is gone. | It does not know which vehicles you control for 30 days, and it does not enforce your retention schedule. |
+| **§396.3(a)** — systematic maintenance | Vehicles under your control must be systematically inspected, repaired, and maintained, and kept in safe operating condition **at all times**. | The available PM workflow can record service events with a date, asset, technician, and work information. | It cannot perform maintenance, and a complete record of neglect is still neglect. |
+| **§396.3(b)–(c)** — maintenance records | For each vehicle controlled 30+ consecutive days: identify the vehicle, the nature and due date of inspections, and a dated record of inspections, repairs, and maintenance. Retain 1 year, plus 6 months after the vehicle leaves your control. | A service history can organize records by asset. | It does not know which vehicles you control for 30 days, and it does not enforce your retention schedule. |
 | **§396.7** — unsafe operation | Prohibits operating a vehicle in a condition likely to cause an accident or breakdown. | Nothing. This is an operating prohibition, not a record. | See [safe operation and out-of-service](/kb/safe-operation-and-out-of-service). |
 | **§396.11** — driver vehicle inspection report | Driver prepares a report at the end of each day's work **when** a defect is discovered or reported. | Not the same artifact as an annual inspection record; see [the distinction](/kb/dot-inspection-recordkeeping). | The platform's inspection record is not a DVIR and should not be presented as one. |
-| **§396.17** — periodic (annual) inspection | Every Appendix A component must have passed within the preceding 12 months, with documentation on the vehicle. | Captures per-component results against the [Appendix A criteria](/kb/appendix-a-inspection-standards), and the decal is the documentation on the vehicle. | It does not decide that the vehicle passed. A [qualified inspector](/kb/who-can-perform-dot-inspection) does. |
+| **§396.17** — periodic (annual) inspection | Every Appendix A component must have passed within the preceding 12 months, with documentation on the vehicle. | The annual-inspection capture and serialized-decal workflow are in development; this is not a currently available capability. | It does not decide that the vehicle passed. A [qualified inspector](/kb/who-can-perform-dot-inspection) does. |
 | **§396.19** — inspector qualification | The inspector must meet all three prongs; you must retain qualification evidence for the period they inspect for you plus one year. | Records who performed each inspection, so the record names an individual rather than a shop. | It does not verify that the named person is qualified, and holding qualification evidence remains your obligation. |
-| **§396.21(a)** — report contents | Six required elements, including per-component results and identification of components failing Appendix A. | Captures per-component detail rather than an overall verdict, which is the shape §396.21(a)(5) contemplates. | It does not certify accuracy and completeness — §396.21(a)(6) is a human certification. |
-| **§396.21(b)** — retention and production | Retain 14 months where the vehicle is housed or maintained; produce on demand. **If you did not perform the last inspection, you must still obtain and produce it.** | This is the sharpest fit. A record bound to a serial survives the shop that created it and is reachable by scanning the decal on the vehicle. | It is not a substitute for your own retention. Availability is a service, not a legal guarantee. |
+| **§396.21(a)** — report contents | Six required elements, including per-component results and identification of components failing Appendix A. | A planned annual-inspection record is designed to retain component-level detail. | It does not certify accuracy and completeness — §396.21(a)(6) is a human certification. |
+| **§396.21(b)** — retention and production | Retain 14 months where the vehicle is housed or maintained; produce on demand. **If you did not perform the last inspection, you must still obtain and produce it.** | A planned serialized record could make locating a copy easier. | It is not a substitute for your own retention. Availability is a service, not a legal guarantee. |
 | **§396.25** — brake inspector qualification | A distinct qualification for anyone performing the brake portion. | Records the individual who performed the work. | It does not distinguish or verify brake-inspector qualification. |
 
 ## The obligation this actually addresses
@@ -47,7 +47,7 @@ If one row matters more than the others, it is **§396.21(b)(3)**: if the motor 
 
 That obligation does not transfer back to the shop. It does not lapse because the shop closed, changed software, or lost the file. And it is the one that a carbon copy in someone else's filing cabinet is structurally bad at satisfying.
 
-A record indexed by a serial that is physically attached to the vehicle inverts that: the thing you scan to find the record is stuck to the thing the record is about.
+A record indexed by a serial physically attached to the vehicle could make that lookup simpler: the thing you scan to find the record would be attached to the thing the record is about. That workflow is planned, not generally available today.
 
 ## The five clocks
 

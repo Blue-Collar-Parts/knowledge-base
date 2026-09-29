@@ -17,11 +17,13 @@ this content, with attribution.
 content/
   regulatory/   what 49 CFR Part 396 requires
   product/      what the Blue Collar Parts platform does
+  maintenance/  practical, non-regulatory preventive-maintenance guidance
 ```
 
-The two tracks are kept separate on purpose. A statement about the platform is
-not a statement about the law, and consumers of this content — human or
-machine — should never have to guess which one they are reading.
+The tracks are kept separate on purpose. A statement about the platform is not
+a statement about the law, and preventive-maintenance guidance is not an
+inspection standard. Consumers of this content — human or machine — should
+never have to guess which one they are reading.
 
 ## Front matter
 
@@ -32,7 +34,7 @@ Every file carries YAML front matter:
 | `slug` | yes | Must match the filename and be unique **across both tracks** — slugs are the URL namespace. |
 | `title` | yes | |
 | `description` | yes | One or two sentences. Used for `<meta name="description">` and in `llms.txt`. |
-| `track` | yes | `regulatory` or `product`. Must match the containing directory. |
+| `track` | yes | `regulatory`, `product`, or `maintenance`. Must match the containing directory. |
 | `kind` | yes | `article` or `faq`. |
 | `order` | yes | Sort position within the track. Sparse (10, 20, 30…) so pages can be inserted. |
 | `isRegulatoryAdjacent` | yes | `true` on anything summarizing regulation. Drives the disclaimer. |
@@ -68,6 +70,20 @@ copy thresholds into this repository as though they were canonical.
 2. **Don't imply compliance.** A capability is not a compliance guarantee. See
    `content/product/bcp-and-part-396-recordkeeping.mdx` for the tone to match.
 3. **Prices and commercial terms are indicative**, and should say so.
+
+## Rules for maintenance content
+
+1. **It is not regulatory content.** Use `track: maintenance`,
+   `isRegulatoryAdjacent: false`, and an empty `cfr: []` array. Do not present
+   a PM result as a DOT annual inspection, an out-of-service determination, or
+   evidence of compliance.
+2. **Do not publish make- or model-specific checklists until their maintenance
+   basis is verified.** General record structure and the distinction between PM
+   and annual DOT inspections are publishable; prescriptive service intervals,
+   thresholds, and pass/fail conditions need their manufacturer documentation.
+3. **Be useful without pretending to be a service manual.** Explain what an
+   owner or technician should be able to see in a record, what a PM visit is
+   for, and when to consult the equipment manufacturer's documentation.
 
 ## Consuming this content
 

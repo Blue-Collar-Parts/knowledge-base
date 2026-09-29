@@ -1,14 +1,14 @@
 ---
 slug: how-the-serialized-decal-works
 title: "How the Serialized Decal Works"
-description: "Every Blue Collar Parts decal carries a serial with a defined lifecycle — minted, allocated, bound, active, expired, superseded, void. What each state means and what a scan shows in each one."
+description: "A planned Blue Collar Parts serialized decal carries a defined lifecycle — minted, allocated, bound, active, expired, superseded, void. Learn what each state is designed to mean and why it does not replace an inspection report."
 track: product
 kind: article
 order: 20
 status: in-development
 isRegulatoryAdjacent: false
 publishedAt: 2026-09-01
-updatedAt: 2026-09-01
+updatedAt: 2026-09-29
 cfr:
   - "49 CFR 396.17(c)(2)"
 related:
@@ -17,11 +17,11 @@ related:
   - bcp-and-part-396-recordkeeping
 ---
 
-A Blue Collar Parts decal is not a sticker with a date on it. It carries a **serial number with an explicit lifecycle**, and scanning it returns whatever that serial's current state actually is — including states that mean "do not trust this decal."
+A planned Blue Collar Parts decal is not just a sticker with a date on it. It carries a **serial number with an explicit lifecycle**, designed so a scan can return the serial's current state — including states that mean "do not trust this decal."
 
 That is the point. A conventional inspection decal can only ever say what was true on the day it was printed. A serialized one can say what is true now.
 
-## The seven states
+## Planned lifecycle states
 
 | State | Meaning | What a scan shows |
 | --- | --- | --- |
@@ -43,7 +43,7 @@ Two of these carry most of the weight.
 
 **`void` is what makes fraud detectable.** A decal that was lost, stolen, printed in error, or attached to the wrong equipment can be invalidated centrally. The physical sticker still exists; the scan says it is invalid. There is no equivalent to this on a printed decal.
 
-## The binding flow
+## Planned binding flow
 
 The technician's path is deliberately short, because it happens in a shop bay and not at a desk:
 
@@ -61,4 +61,4 @@ The scannable record is also **not indexed by search engines** and is not cached
 
 ---
 
-*Product behavior described here is subject to change. Regulatory content is informational only and is not legal advice — see [49 CFR Part 396](https://www.ecfr.gov/current/title-49/part-396).*
+*This is an in-development product capability and is not generally available. Product behavior described here is subject to change. Regulatory content is informational only and is not legal advice — see [49 CFR Part 396](https://www.ecfr.gov/current/title-49/part-396).*

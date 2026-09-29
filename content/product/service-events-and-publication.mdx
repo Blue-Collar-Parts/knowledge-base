@@ -1,60 +1,43 @@
 ---
 slug: service-events-and-publication
-title: "Service Events, Intervals, and Publication"
-description: "Beyond the annual inspection: how Blue Collar Parts records interval-based preventive maintenance for trucks, trailers, generators, and marine equipment, and how a completed record gets published to the equipment owner."
+title: "Digital Preventive Maintenance Service Records for Equipment Owners"
+description: "Learn how a preventive-maintenance service event creates an equipment record: what was checked, what was found, what was done, and what needs attention next. Customer publication is a separate capability currently in development."
 track: product
 kind: article
 order: 30
 status: in-development
 isRegulatoryAdjacent: false
 publishedAt: 2026-09-01
-updatedAt: 2026-09-01
-cfr:
-  - "49 CFR 396.3"
+updatedAt: 2026-09-29
+cfr: []
 related:
   - what-is-blue-collar-parts
-  - bcp-and-part-396-recordkeeping
-  - how-the-serialized-decal-works
+  - what-is-a-pm-inspection
+  - what-belongs-in-a-pm-report-for-the-equipment-owner
 ---
 
-Not all equipment maintenance is a federal inspection. A generator on a job site, a boat, a trailer between annual cycles — all of it gets serviced on intervals, and none of it is covered by [49 CFR 396.17](/kb/annual-dot-inspection-requirements). Blue Collar Parts treats the annual DOT inspection as one case of a more general thing: a **service event**.
+A preventive-maintenance visit is easier to stand behind when it has a durable service record. Blue Collar Parts uses a **service event** to keep the customer, asset, work performed, and future context together.
 
 ## What a service event is
 
-A service event is a dated record of work performed on a specific piece of equipment, owned by the technician or shop that performed it. It records what was done, by whom, on what, and when — and, where an interval applies, when the next service is due.
+A service event is a dated record of work performed on a specific piece of equipment. It records who did the work, what asset it concerned, and the service information the technician entered. A PM service event is private to its owner while it is being created and completed.
 
 Creating and saving a service event record is **free**. There is no charge to keep your own records.
 
 ## Intervals and next service
 
-Equipment is serviced on a schedule, so a service event can carry a maintenance interval — the record then computes and carries its own next-service date. That is what makes a scanned decal useful to someone who is not the technician: it answers "when is this due again," not only "what happened last time."
+Equipment is serviced on a schedule, but the correct schedule depends on the equipment, its operating conditions, and the manufacturer's documentation. A service record can preserve the date and meter or odometer context that makes the next visit easier to plan; it does not invent an interval or replace equipment-specific guidance.
 
-Three interval tiers are offered — **basic**, **extended**, and **annual** — reflecting how far ahead the record commits.
+## A record versus a customer publication
 
-## What you pay for
+The record a technician creates and the copy an equipment owner can open are distinct things. The current workflow is for recording PM work. Customer-facing publication and distribution are planned capabilities, not promises that a completed record is automatically sent or publicly visible.
 
-The commercial model is deliberately narrow: **you pay when you ask for a completed service event to be published and distributed to your customer.**
-
-- Recording work: free.
-- Keeping your own record: free.
-- Publishing a customer-facing record and sending it to the equipment owner: paid, priced per publication.
-
-Price is a function of the interval tier, plus a premium where a regulatory profile applies. Whatever the price works out to at the moment you publish is **snapshotted onto that publication** — a later price change does not retroactively alter what you were charged or what the record says you were charged.
-
-Only a **completed** service event can be published. A draft or in-progress record cannot be sold to a customer as a finished one.
-
-## The regulatory profile is gated
-
-There is a distinct publication profile for the FMCSA annual DOT inspection. It is **switched off**, and that is intentional rather than incidental.
-
-Publishing a customer-facing document that presents itself as a federal annual inspection record engages obligations that a general service record does not: the [Appendix A criteria](/kb/appendix-a-inspection-standards) the report is measured against, [inspector qualification under §396.19 and §396.25](/kb/who-can-perform-dot-inspection), and the [retention rules in §396.21](/kb/dot-inspection-recordkeeping). Those gates are not all met, so the profile does not run. It will be enabled when they are — not before.
-
-This is worth stating plainly because the opposite approach is common and bad: shipping the compliance-flavored feature first and sorting out the obligations later.
+That distinction matters commercially: a completed service record gives the technician context; a customer copy should give the equipment owner a concise account of what was checked, found, done, and due next. [See what belongs in that report](/kb/what-belongs-in-a-pm-report-for-the-equipment-owner).
 
 ## Who can see what
 
-Service event records are owner-scoped. A technician sees their own customers, assets, and events; a request for another owner's record does not return a redacted version of it, it returns nothing. Publication is what moves a record from private to customer-visible, and it is an explicit act.
+Service event records are owner-scoped. A technician sees their own customers, assets, and events; a request for another owner’s record does not return a redacted version of it, it returns nothing. Publication, when available, will be an explicit act rather than a side effect of entering work.
 
 ---
 
-*Product behavior described here is subject to change. Pricing is a launch experiment, not settled pricing. Regulatory content is informational only and is not legal advice — see [49 CFR Part 396](https://www.ecfr.gov/current/title-49/part-396).*
+*Product behavior described here is subject to change. Preventive maintenance is not a federal annual inspection and does not establish regulatory compliance.*

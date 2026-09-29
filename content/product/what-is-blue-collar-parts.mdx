@@ -1,58 +1,55 @@
 ---
 slug: what-is-blue-collar-parts
-title: "What Blue Collar Parts Is"
-description: "Blue Collar Parts builds serialized inspection decals and digital service records for commercial trucks, trailers, generators, and marine equipment. What the platform does, who it is for, and what it deliberately does not do."
+title: "Blue Collar Parts: Digital Preventive Maintenance Records"
+description: "Blue Collar Parts helps technicians document preventive maintenance for commercial equipment and share a clear service record with the equipment owner. Learn what the platform does today and which record-publication features are in development."
 track: product
 kind: article
 order: 10
 status: in-development
 isRegulatoryAdjacent: false
 publishedAt: 2026-09-01
-updatedAt: 2026-09-01
+updatedAt: 2026-09-29
 cfr: []
 related:
   - how-the-serialized-decal-works
-  - bcp-and-part-396-recordkeeping
-  - what-is-commercial-vehicle-inspection
+  - what-is-a-pm-inspection
+  - what-belongs-in-a-pm-report-for-the-equipment-owner
 ---
 
-Blue Collar Parts (shopbluecollarparts.com) sells **serialized inspection decals paired with a digital service record**. A technician completes an inspection or service on a piece of equipment, binds a serialized QR decal to that record, and the decal becomes a permanent scannable pointer to what was actually done.
+Blue Collar Parts helps technicians create **digital preventive-maintenance records** for commercial equipment. A technician starts a service event for a customer and asset, records the work performed, and retains a clear history of the visit.
 
-The problem it addresses is not the inspection. It is what happens to the paperwork afterward.
+The immediate job is simple: make a service record useful after the technician leaves the equipment. The platform is built for trucks, trailers, generators, and marine equipment, with a preventive-maintenance workflow available today.
 
 ## The problem
 
-An annual inspection produces a report. Under [49 CFR 396.21(b)(1)](/kb/dot-inspection-recordkeeping) that report has to survive fourteen months and be produceable on demand by an authorized official. In practice it is a carbon copy in a folder in a shop office, and the obligation to produce it sits with the carrier operating the vehicle — **not** with the shop that performed it, even if that shop has since closed or lost the file.
-
-So the failure mode is rarely "the inspection was done wrong." It is "the inspection was done correctly eighteen months ago and nobody can find the paper."
+Preventive maintenance produces more than a checklist. It creates a record of what was checked, what was found, what was done, and when the equipment needs attention again. When that information stays in a technician's notebook, inbox, or one-off PDF, the equipment owner has little usable history to work from.
 
 ## What the platform does
 
-Four things, in order:
+For preventive maintenance, the platform supports:
 
-1. **Inspection and service entry.** A technician fills out the inspection or service record on a phone, in the field. Defect data is captured per component rather than as a single pass/fail verdict.
-2. **Serialized decal binding.** The technician scans a decal from their own kit. That serial is bound to the record they just completed, one to one.
-3. **A public, scannable record.** Anyone who scans the QR on that decal — a driver, a fleet manager, an official, a prospective buyer — lands on the as-filed record for that specific serial.
-4. **Distribution to the equipment owner.** The record can be published and sent to the customer, so the person who owns the equipment holds a copy independent of the shop.
+1. **Customer and asset context.** Start with the customer and the particular truck, trailer, generator, or vessel.
+2. **Preventive-maintenance service entry.** Record a PM visit as work on that asset rather than as an unconnected form.
+3. **Service history.** Keep the service event attached to the asset so the next visit starts with context.
 
-The decal is the index. The record is the thing that matters.
+See [what a PM inspection is](/kb/what-is-a-pm-inspection) for the record structure and [what an equipment owner should receive](/kb/what-belongs-in-a-pm-report-for-the-equipment-owner) for the customer-facing outcome.
 
 ## What equipment it covers
 
-Trucks and trailers, where the [federal annual inspection](/kb/annual-dot-inspection-requirements) applies, and generators and marine equipment, where interval-based preventive maintenance applies but no federal inspection regime does. The same serialization and record mechanics serve both; only the form content differs.
+The current PM workflow covers truck, marine-diesel, and diesel-generation maintenance forms. It is not a substitute for a manufacturer service manual, and it is not an annual DOT inspection.
 
 ## What it deliberately does not do
 
 This matters as much as the feature list, and it is stated plainly because ambiguity here is a liability:
 
-- **It does not make a regulatory determination.** The platform can record that a component was measured and what the measurement was. It does not certify that a vehicle is compliant. A [qualified inspector under 49 CFR 396.19](/kb/who-can-perform-dot-inspection) makes that determination; the platform records it.
-- **It does not replace the inspection report.** A decal under [49 CFR 396.17(c)(2)](/kb/dot-inspection-decal-requirements) is documentation *based on* a report. The report still has to exist and still has to be retained.
-- **It does not verify inspector qualification.** Qualification evidence under §396.19(b) and §396.25(e) is the carrier's recordkeeping obligation.
-- **No machine output publishes a record.** Where the platform uses automated processing to assist a technician, the output is held beside the technician's own input for human review. Nothing is published, and no regulatory conclusion is reached, without a person approving it.
+- **It does not make a regulatory determination.** A PM result does not certify compliance, replace a federal annual inspection, or create an out-of-service judgment. Read [PM inspection vs. DOT inspection](/kb/pm-inspection-vs-dot-inspection) for the distinction.
+- **It does not replace manufacturer guidance.** The manufacturer’s documentation controls equipment-specific service intervals, limits, and procedures.
+- **It does not turn a draft into a customer deliverable automatically.** Publication and customer distribution are separate product capabilities and remain in development.
+- **No machine output publishes a record.** Where automated processing assists a technician, the technician’s input remains distinguishable and a person retains the approval boundary.
 
 ## Availability
 
-The platform is in active development. Pages in this section carry a status marker: **in development** means the behavior described is built and specified but not yet generally available. Nothing here should be read as a claim that a feature is live in production today.
+The platform is in active development. The preventive-maintenance workflow is available; pages marked **in development** describe planned capabilities that are not yet generally available.
 
 ---
 
