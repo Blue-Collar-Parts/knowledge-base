@@ -1,58 +1,59 @@
 ---
 slug: what-is-blue-collar-parts
 title: "What Blue Collar Parts Is"
-description: "Blue Collar Parts turns each service on trucks, trailers, generators, and marine equipment into a record your customer can open, tied to a serialized QR decal."
+description: "Blue Collar Parts turns each PM service and annual inspection into a record your customer can open: what was found, what was fixed, and who did the work."
 track: product
 kind: article
 order: 10
-status: in-development
+status: available
 isRegulatoryAdjacent: false
 publishedAt: 2026-09-01
 updatedAt: 2026-10-01
 cfr: []
 related:
-  - how-the-serialized-decal-works
+  - service-events-and-records
+  - what-is-a-pm-inspection
+  - what-belongs-in-a-pm-report-for-the-customer
   - bcp-and-part-396-recordkeeping
   - what-is-commercial-vehicle-inspection
 ---
 
-Blue Collar Parts (shopbluecollarparts.com) sells **serialized inspection decals paired with a digital service record**. A technician completes an inspection or service on a piece of equipment, binds a serialized QR decal to that record, and the decal becomes a scannable pointer to what was actually done.
+Blue Collar Parts (shopbluecollarparts.com) turns each service a technician does — a preventive maintenance service or an annual inspection — into a record the customer can open: what was found, what was fixed, and who did the work.
 
-The problem it addresses is not the inspection. It is what happens to the paperwork afterward.
+Your time. Your work. Your record.
 
-## The problem
+## Why it exists
 
-An annual inspection produces a report. Under [49 CFR 396.21(b)(1)](/kb/dot-inspection-recordkeeping) that report has to survive fourteen months and be produceable on demand by an authorized official. In practice it is a carbon copy in a folder in a shop office, and the obligation to produce it sits with the carrier operating the vehicle — **not** with the shop that performed it, even if that shop has since closed or lost the file.
+When equipment is down, somebody else's time lands in the technician's hands. The work that gets it running again is skilled, and most of it is invisible once the truck leaves the bay. When that work stays in a notebook, an inbox, or a one-off PDF, the customer has little usable history to work from. Blue Collar Parts gives the work a record the customer can see, so the technician's skill makes their case for them.
 
-So the failure mode is rarely "the inspection was done wrong." It is "the inspection was done correctly eighteen months ago and nobody can find the paper."
+## How it works
 
-## What the platform does
+1. **Do the work.** The technician starts a service event for the customer and the asset, then records the service on a phone, in the bay or in the field. An annual inspection records results per component rather than as a single pass/fail verdict.
+2. **Send the record.** When the work is marked complete, the technician sends the record to their customer — the equipment owner, its operator, a fleet management company, or a maintenance and repair department. Nothing is sent automatically.
+3. **The customer confirms it.** When they confirm it, it's on the technician's record, with the technician's name on it.
 
-Four things, in order:
+Starting is free; you pay when you send the record. [See how a service event becomes a record](/kb/service-events-and-records).
 
-1. **Inspection and service entry.** A technician fills out the inspection or service record on a phone, in the field. Defect data is captured per component rather than as a single pass/fail verdict.
-2. **Serialized decal binding.** The technician scans a decal from their own kit. That serial is bound to the record they just completed, one to one.
-3. **A public, scannable record.** Anyone who scans the QR on that decal — a driver, a fleet manager, an official, a prospective buyer — lands on the as-filed record for that specific serial.
-4. **Distribution to the equipment owner.** The record can be published and sent to the customer, so the person who owns the equipment holds a copy independent of the shop.
+## What it covers
 
-The decal is the index. The record is the thing that matters.
+- **Preventive maintenance** for trucks, generators, and marine equipment, using truck, marine-diesel, and diesel-generation forms. See [what a PM inspection is](/kb/what-is-a-pm-inspection) and [what the customer should receive](/kb/what-belongs-in-a-pm-report-for-the-customer).
+- **Annual inspections** of trucks and trailers under the [federal annual inspection](/kb/annual-dot-inspection-requirements), recorded against Appendix A. Only a technician who has attested to the [inspector qualifications of 49 CFR 396.19](/kb/who-can-perform-dot-inspection) can record one.
 
-## What equipment it covers
-
-Trucks and trailers, where the [federal annual inspection](/kb/annual-dot-inspection-requirements) applies, and generators and marine equipment, where interval-based preventive maintenance applies but no federal inspection regime does. The same serialization and record mechanics serve both; only the form content differs.
+Repair and diagnostic records are not available yet. Neither form is a substitute for a manufacturer service manual.
 
 ## What it deliberately does not do
 
 This matters as much as the feature list, and it is stated plainly because ambiguity here is a liability:
 
-- **It does not make a regulatory determination.** The platform can record that a component was measured and what the measurement was. It does not certify that a vehicle is compliant. A [qualified inspector under 49 CFR 396.19](/kb/who-can-perform-dot-inspection) makes that determination; the platform records it.
-- **It does not replace the inspection report.** A decal under [49 CFR 396.17(c)(2)](/kb/dot-inspection-decal-requirements) is documentation *based on* a report. The report still has to exist and still has to be retained.
-- **It does not verify inspector qualification.** Qualification evidence under §396.19(b) and §396.25(e) is the carrier's recordkeeping obligation.
-- **No machine output publishes a record.** Where the platform uses automated processing to assist a technician, the output is held beside the technician's own input for human review. Nothing is published, and no regulatory conclusion is reached, without a person approving it.
+- **It does not make a regulatory determination.** The platform can record that a component was measured and what the measurement was. It does not certify that a vehicle is compliant. A [qualified inspector under 49 CFR 396.19](/kb/who-can-perform-dot-inspection) makes that determination; the platform records it. A PM result is not an annual inspection — read [PM inspection vs. DOT inspection](/kb/pm-inspection-vs-dot-inspection).
+- **It does not take over anyone's recordkeeping.** An annual inspection report still has to be retained for fourteen months under [49 CFR 396.21(b)(1)](/kb/dot-inspection-recordkeeping), and that obligation sits with the carrier operating the vehicle. Blue Collar Parts' own retention of a record is not that recordkeeping.
+- **It does not verify inspector qualification.** The technician attests to it. Qualification evidence under §396.19(b) and §396.25(e) is the carrier's recordkeeping obligation.
+- **It does not replace manufacturer guidance.** The manufacturer's documentation controls equipment-specific service intervals, limits, and procedures.
+- **No machine output sends a record.** Where the platform uses automated processing to assist a technician, the output is held beside the technician's own input for human review. Nothing is sent, and no regulatory conclusion is reached, without a person approving it.
 
 ## Availability
 
-The platform is in active development. Pages in this section carry a status marker: **in development** means the behavior described is built and specified but not yet generally available. Nothing here should be read as a claim that a feature is live in production today.
+The platform is in active development. Preventive maintenance and annual inspection records, including sending the record to your customer, are available today. Pages marked **in development** describe planned capabilities that are not yet generally available.
 
 ---
 
