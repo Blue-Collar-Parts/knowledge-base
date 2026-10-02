@@ -31,7 +31,7 @@ Every file carries YAML front matter:
 
 | Field | Required | Notes |
 | --- | --- | --- |
-| `slug` | yes | Must match the filename and be unique **across both tracks** — slugs are the URL namespace. |
+| `slug` | yes | Must match the filename and be unique **across all tracks** — slugs are the URL namespace. |
 | `title` | yes | |
 | `description` | yes | One or two sentences. Used for `<meta name="description">` and in `llms.txt`. |
 | `track` | yes | `regulatory`, `product`, or `maintenance`. Must match the containing directory. |
@@ -81,8 +81,8 @@ copy thresholds into this repository as though they were canonical.
    basis is verified.** General record structure and the distinction between PM
    and annual DOT inspections are publishable; prescriptive service intervals,
    thresholds, and pass/fail conditions need their manufacturer documentation.
-3. **Be useful without pretending to be a service manual.** Explain what an
-   owner or technician should be able to see in a record, what a PM visit is
+3. **Be useful without pretending to be a service manual.** Explain what a
+   customer or technician should be able to see in a record, what a PM visit is
    for, and when to consult the equipment manufacturer's documentation.
 
 ## Consuming this content
