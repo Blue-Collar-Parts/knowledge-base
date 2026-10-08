@@ -18,6 +18,7 @@ content/
   regulatory/   what 49 CFR Part 396 requires
   product/      what the Blue Collar Parts platform does
   maintenance/  practical, non-regulatory preventive-maintenance guidance
+  business/     practical guidance for technicians who run a service business
 ```
 
 The tracks are kept separate on purpose. A statement about the platform is not
@@ -34,7 +35,7 @@ Every file carries YAML front matter:
 | `slug` | yes | Must match the filename and be unique **across all tracks** — slugs are the URL namespace. |
 | `title` | yes | |
 | `description` | yes | One or two sentences. Used for `<meta name="description">` and in `llms.txt`. |
-| `track` | yes | `regulatory`, `product`, or `maintenance`. Must match the containing directory. |
+| `track` | yes | `regulatory`, `maintenance`, `business`, or `product`. Must match the containing directory. |
 | `kind` | yes | `article` or `faq`. |
 | `order` | yes | Sort position within the track. Sparse (10, 20, 30…) so pages can be inserted. |
 | `isRegulatoryAdjacent` | yes | `true` on anything summarizing regulation. Drives the disclaimer. |
@@ -84,6 +85,15 @@ copy thresholds into this repository as though they were canonical.
 3. **Be useful without pretending to be a service manual.** Explain what a
    customer or technician should be able to see in a record, what a PM visit is
    for, and when to consult the equipment manufacturer's documentation.
+
+## Rules for business content
+
+1. **It is general guidance, not legal, tax, insurance, or financial advice.**
+   Say so in the footer, and point to the State, local agency, or licensed
+   professional who decides the specific question.
+2. **Publish no market rates, incomes, or outcomes.** Show how to build a price
+   or a plan; do not promise what it will earn.
+3. **Name no carriers, vendors, or competitors** as recommendations.
 
 ## Consuming this content
 
