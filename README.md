@@ -35,7 +35,7 @@ Every file carries YAML front matter:
 | `slug` | yes | Must match the filename and be unique **across all tracks** — slugs are the URL namespace. |
 | `title` | yes | |
 | `description` | yes | One or two sentences. Used for `<meta name="description">` and in `llms.txt`. |
-| `track` | yes | `regulatory`, `product`, or `maintenance`. Must match the containing directory. |
+| `track` | yes | `regulatory`, `maintenance`, `business`, or `product`. Must match the containing directory. |
 | `kind` | yes | `article` or `faq`. |
 | `order` | yes | Sort position within the track. Sparse (10, 20, 30…) so pages can be inserted. |
 | `isRegulatoryAdjacent` | yes | `true` on anything summarizing regulation. Drives the disclaimer. |
