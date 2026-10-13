@@ -84,6 +84,24 @@ copy thresholds into this repository as though they were canonical.
 3. **Be useful without pretending to be a service manual.** Explain what a
    customer or technician should be able to see in a record, what a PM visit is
    for, and when to consult the equipment manufacturer's documentation.
+4. **Manufacturer specifications may be stated, with a citation.** A page may
+   give a specification for a named engine, axle, trailer component or unit,
+   such as a capacity, valve lash, service interval or torque value, when all of
+   these hold:
+   - **Cite the manufacturer's published document.** Give its title, publication
+     or form number, and edition or date, and link it where the manufacturer
+     publishes it.
+   - **Quote the value exactly as published,** with its unit and any conditions
+     the document attaches. Never round it, derive it, or average it across
+     sources.
+   - **If two documents disagree,** give both with their citations, or give neither.
+   - **Tell the reader to confirm** against the documentation for their specific
+     serial number or build.
+   - **Link the manufacturer's tables, diagrams and procedure text.** Never copy them.
+
+   This rule covers only values the manufacturer publishes. It does not lift
+   rule 2 for checklists BCP writes itself, and it does not apply to Appendix A
+   thresholds (see the regulatory rules above).
 
 ## Consuming this content
 
