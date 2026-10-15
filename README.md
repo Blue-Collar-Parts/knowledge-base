@@ -84,6 +84,46 @@ copy thresholds into this repository as though they were canonical.
 3. **Be useful without pretending to be a service manual.** Explain what a
    customer or technician should be able to see in a record, what a PM visit is
    for, and when to consult the equipment manufacturer's documentation.
+4. **Manufacturer specifications may be stated, with a citation.** A page may
+   give a specification for a named engine, axle, trailer component or unit,
+   such as a capacity, valve lash, service interval or torque value, when all of
+   these hold:
+   - **Cite the manufacturer's published document.** Give its title, publication
+     or form number, and edition or date, and link it where the manufacturer
+     publishes it.
+   - **Quote the value exactly as published,** with its unit and any conditions
+     the document attaches. Never round it, derive it, or average it across
+     sources.
+   - **If two documents disagree,** give both with their citations, or give neither.
+   - **Tell the reader to confirm** against the documentation for their specific
+     serial number or build.
+   - **Link the manufacturer's tables, diagrams and procedure text.** Never copy them.
+
+   This rule covers only values the manufacturer publishes. It does not lift
+   rule 2 for checklists BCP writes itself, and it does not apply to Appendix A
+   thresholds (see the regulatory rules above).
+
+## Rules for analysis of public FMCSA data
+
+Any page may publish findings computed from FMCSA's public inspection data, such
+as which vehicle systems are cited most often, under these rules:
+
+1. **Aggregates only.** Never a figure for one carrier, vehicle, VIN or
+   inspection.
+2. **Say exactly what the number is.**
+   - Shares of violations are a mix among cited units ("of units cited for a
+     vehicle violation, X% were cited for lighting"), never a rate or a
+     likelihood.
+   - Only the share of inspections that found a vehicle violation, or put a
+     vehicle out of service, may be stated as a rate.
+3. **State the method, the source dataset and the date window** on the page,
+   next to the numbers. For example: "FMCSA vehicle inspection data, inspections
+   from 2025-09-28 to 2026-09-27, one current version per inspection; mix among
+   cited units."
+4. **Nothing from Blue Collar Parts' own data:** no search, traffic, customer,
+   pricing or business figures.
+5. **No claims about safety or compliance.** A finding describes what
+   inspectors cited, not whether any vehicle or carrier is safe or compliant.
 
 ## Consuming this content
 
