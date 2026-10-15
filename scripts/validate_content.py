@@ -25,7 +25,7 @@ CFR_RE = re.compile(r"^49 CFR (Part 396 Appendix A|\d{3}\.\d+(\([a-z0-9]+\))*)$"
 START_TARGET_RE = re.compile(r"^/start(/[a-z0-9]+(-[a-z0-9]+)*)?$")
 
 TOPICS_NOT_ACCEPTED = (
-    "topics not accepted until the kb_topic vocabulary is vendored (bcp-docs#635)"
+    "topics not accepted until the topic vocabulary is published"
 )
 
 # Link text that must not appear as a next step: the brand call to action, and

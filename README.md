@@ -94,7 +94,7 @@ request. It checks the front matter and the rules above, that internal links
 (`/kb/<slug>`) resolve, and that page text does not pair a number with
 Blue Collar Parts' own private figures (search or keyword data, traffic,
 sign-ups, scores, revenue or customer counts). Aggregates of public FMCSA data
-stay allowed under the rules for that data below. Run it locally:
+are not affected. Run it locally:
 
 ```sh
 pip install -r requirements-dev.txt
