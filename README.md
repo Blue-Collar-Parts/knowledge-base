@@ -103,6 +103,28 @@ copy thresholds into this repository as though they were canonical.
    rule 2 for checklists BCP writes itself, and it does not apply to Appendix A
    thresholds (see the regulatory rules above).
 
+## Rules for analysis of public FMCSA data
+
+Any page may publish findings computed from FMCSA's public inspection data, such
+as which vehicle systems are cited most often, under these rules:
+
+1. **Aggregates only.** Never a figure for one carrier, vehicle, VIN or
+   inspection.
+2. **Say exactly what the number is.**
+   - Shares of violations are a mix among cited units ("of units cited for a
+     vehicle violation, X% were cited for lighting"), never a rate or a
+     likelihood.
+   - Only the share of inspections that found a vehicle violation, or put a
+     vehicle out of service, may be stated as a rate.
+3. **State the method, the source dataset and the date window** on the page,
+   next to the numbers. For example: "FMCSA vehicle inspection data, inspections
+   from 2025-09-28 to 2026-09-27, one current version per inspection; mix among
+   cited units."
+4. **Nothing from Blue Collar Parts' own data:** no search, traffic, customer,
+   pricing or business figures.
+5. **No claims about safety or compliance.** A finding describes what
+   inspectors cited, not whether any vehicle or carrier is safe or compliant.
+
 ## Consuming this content
 
 Beyond cloning this repository, the rendered site serves:
