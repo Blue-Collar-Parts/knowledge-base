@@ -9,6 +9,7 @@ Exit status: 0 when every page passes, 1 otherwise.
 """
 from __future__ import annotations
 
+import json
 import re
 import sys
 from pathlib import Path
@@ -24,9 +25,11 @@ DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 CFR_RE = re.compile(r"^49 CFR (Part 396 Appendix A|\d{3}\.\d+(\([a-z0-9]+\))*)$")
 START_TARGET_RE = re.compile(r"^/start(/[a-z0-9]+(-[a-z0-9]+)*)?$")
 
-TOPICS_NOT_ACCEPTED = (
-    "topics not accepted until the topic vocabulary is published"
-)
+TOPICS_FILE = Path(__file__).resolve().parents[1] / "vocabulary" / "topics.json"
+
+
+def load_topic_vocabulary(path: Path = TOPICS_FILE) -> set[str]:
+    return set(json.loads(path.read_text(encoding="utf-8"))["topics"])
 
 # Link text that must not appear as a next step: the brand call to action, and
 # wording that claims compliance.
@@ -294,7 +297,7 @@ def validate_page(
         if banned in meta:
             errs.append(f"`{banned}` is not an allowed field")
 
-    errs.extend(_check_topics(meta, cfr))
+    errs.extend(_check_topics(meta, cfr, load_topic_vocabulary()))
     errs.extend(_check_next_step(meta, stem, all_slugs))
 
     for linked in _kb_link_slugs(body):
@@ -305,7 +308,7 @@ def validate_page(
     return errs
 
 
-def _check_topics(meta: dict, cfr: object) -> list[str]:
+def _check_topics(meta: dict, cfr: object, vocabulary: set[str]) -> list[str]:
     if "topics" not in meta:
         return []
     topics = meta["topics"]
@@ -313,13 +316,20 @@ def _check_topics(meta: dict, cfr: object) -> list[str]:
         return []
     if not _str_list(topics):
         return ["`topics` must be an array of strings"]
+    errs: list[str] = []
     if isinstance(cfr, list) and cfr:
         pm = [t for t in topics if t.startswith("pm_")]
         if pm:
-            return [
+            errs.append(
                 f"`pm_*` topic {pm[0]!r} is not allowed on a page with `cfr` entries"
-            ]
-    return [TOPICS_NOT_ACCEPTED]
+            )
+    for topic in topics:
+        if topic not in vocabulary:
+            errs.append(f"topic {topic!r} is not in vocabulary/topics.json")
+    dupes = sorted({t for t in topics if topics.count(t) > 1})
+    for topic in dupes:
+        errs.append(f"topic {topic!r} is listed more than once")
+    return errs
 
 
 def _check_next_step(meta: dict, stem: str, all_slugs: set[str]) -> list[str]:

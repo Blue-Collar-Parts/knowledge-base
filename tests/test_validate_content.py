@@ -100,14 +100,31 @@ def test_topics_empty_or_absent_passes():
     assert check(meta(topics=[])) == []
 
 
-def test_topics_nonempty_fails_closed():
-    assert has(check(meta(topics=["brakes_air"])), v.TOPICS_NOT_ACCEPTED)
+def test_known_topics_pass():
+    assert check(meta(topics=["brakes_air", "tires_wheels"])) == []
 
 
-def test_pm_topic_with_cfr_rejected_before_vocabulary():
-    errs = check(meta(topics=["pm_engine"], cfr=["49 CFR 396.17"]))
+def test_unknown_topic_fails():
+    assert has(check(meta(topics=["not_a_topic"])), "not in vocabulary")
+
+
+def test_duplicate_topic_fails():
+    assert has(check(meta(topics=["engine", "engine"])), "more than once")
+
+
+def test_pm_topic_with_cfr_rejected():
+    errs = check(meta(topics=["pm_truck_otr"], cfr=["49 CFR 396.17"]))
     assert has(errs, "`pm_*` topic")
-    assert not has(errs, v.TOPICS_NOT_ACCEPTED)
+
+
+def test_pm_topic_without_cfr_passes():
+    assert check(meta(topics=["pm_truck_otr"])) == []
+
+
+def test_vocabulary_file_is_well_formed():
+    vocab = v.load_topic_vocabulary()
+    assert len(vocab) == 15
+    assert all(t == t.lower() and " " not in t for t in vocab)
 
 
 def test_next_step_related():
