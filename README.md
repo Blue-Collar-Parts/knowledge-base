@@ -42,7 +42,7 @@ Every file carries YAML front matter:
 | `updatedAt` | no | `YYYY-MM-DD`. |
 | `cfr` | yes | Array of citation strings in the canonical form below. May be empty. |
 | `related` | no | Array of slugs. Every entry must resolve to a real page. |
-| `topics` | no | Array of topic values from a controlled vocabulary. Not yet accepted: leave it out or empty. See [Topics, next step and citations](#topics-next-step-and-citations). |
+| `topics` | no | Array of topic values from the controlled vocabulary in `vocabulary/topics.json`. See [Topics, next step and citations](#topics-next-step-and-citations). |
 | `nextStep` | no | One next step for the reader: `kind` (`related`, `start` or `none`), `target`, `text`. See the rules below. |
 | `status` | no | `available` or `in-development`. Product pages only; renders as a badge. |
 | `qa` | if `kind: faq` | Array of `{question, answer}`. Emitted as `FAQPage` structured data. |
@@ -60,10 +60,14 @@ paragraph letters or numbers in parentheses and no spaces, or
 `49 CFR 396.17 (c)`.
 
 **`topics`.** Topic values come from a controlled vocabulary maintained by
-Blue Collar Parts. That vocabulary is not published yet, so no topic value is
-accepted: the check rejects a non-empty `topics` array until it is. A topic
-whose value starts with `pm_` is never allowed on a page that lists `cfr`
-entries.
+Blue Collar Parts and kept in `vocabulary/topics.json`, which is updated when
+the vocabulary changes. Each value must be in that list and may appear once per
+page. The current values are `aftertreatment_dpf`, `brakes_air`,
+`tires_wheels`, `lighting_electrical`, `engine`, `periodic_inspection`,
+`pm_truck_otr`, `chassis_trailer_body`, `inspector_qualification`,
+`suspension`, `driver_inspection`, `roadside_enforcement`, `refrigeration`,
+`pm_diesel_genset` and `pm_marine_diesel`. A topic whose value starts with `pm_`
+is never allowed on a page that lists `cfr` entries.
 
 **`nextStep`.** Every page may carry one next step, shown as a single link at the
 end of the page.
