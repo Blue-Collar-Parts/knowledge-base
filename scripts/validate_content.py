@@ -16,7 +16,7 @@ from pathlib import Path
 
 import yaml
 
-TRACKS = ("regulatory", "product", "maintenance")
+TRACKS = ("regulatory", "product", "maintenance", "business")
 KINDS = ("article", "faq")
 STATUSES = ("available", "in-development")
 NEXT_STEP_KINDS = ("related", "start", "none")

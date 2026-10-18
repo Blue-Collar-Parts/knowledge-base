@@ -54,6 +54,11 @@ def test_track_must_match_directory():
     assert has(check(meta(), track_dir="regulatory"), "must match directory")
 
 
+def test_business_track_is_known():
+    assert not has(check(meta(track="business"), track_dir="business"), "`track` must be one of")
+    assert has(check(meta(track="sales"), track_dir="sales"), "`track` must be one of")
+
+
 def test_kind_order_dates_boolean():
     assert has(check(meta(kind="post")), "`kind`")
     assert has(check(meta(order="ten")), "`order`")
