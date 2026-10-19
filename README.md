@@ -107,6 +107,48 @@ python3 -m pytest -q
 python3 scripts/validate_content.py
 ```
 
+## Rules for every page
+
+These apply on every track, in addition to the track rules below. They follow
+Google Search's guidance on
+[AI-generated content](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content)
+and on
+[generative AI features](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide).
+Pages here are drafted with AI. That is not a problem in itself; publishing
+many pages that add nothing for the reader is.
+
+1. **Nothing on a page implies a person wrote or reviewed it.** Don't invent a
+   reviewer, a credential, or first-hand experience ("in our experience", "our
+   technicians found"). There is no `reviewedBy` field.
+2. **Fact-check the whole page, front matter included.** `title` and
+   `description` become the page title, the meta description and the
+   structured data, so they get the same check as the body. Regulatory claims
+   cite their section (see the regulatory rules).
+3. **One page per job or topic, never one page per way of asking it.** A new
+   page answers a question no existing page answers. A variant of a question
+   an existing page already covers becomes a question-shaped section on that
+   page. Don't repeat a section word for word across pages.
+4. **Prefer what only this knowledge base can say.** Exact citations, the
+   structure of a real service record, and analysis the reader cannot get
+   elsewhere add value. A general summary that any model could write adds
+   little.
+5. **Write for the technician, not for AI search.** Lead each section with a
+   direct answer under a heading phrased the way a technician would ask it.
+   Use the technician's own words ("checklist", "form", "slack adjuster").
+   Don't split a page into fragments, and don't add wording or markup "for AI
+   Overviews" or "for the featured snippet". `llms.txt` and the `.md` and
+   `.json` copies serve other assistants; Google Search ignores them.
+6. **Keep the answer visible.** Don't put body text, FAQ answers included,
+   behind accordions or tabs.
+7. **Choose `faq` or `article` by what reads best,** never for a rich result.
+   Google no longer shows FAQ rich results.
+8. **No ratings, reviews, testimonials or star scores** on any page or in its
+   front matter. The site builds structured data from front matter and the
+   rendered page, so front matter describes only what the page shows.
+9. **Dates are real.** `publishedAt` is the day the page goes live.
+   `updatedAt` changes only when the content changes, never to make a page
+   look fresh.
+
 ## Rules for regulatory content
 
 1. **Cite the section.** Every regulatory claim names the CFR section it comes from.
