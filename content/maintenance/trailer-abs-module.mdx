@@ -1,0 +1,68 @@
+---
+slug: trailer-abs-module
+title: "Trailer ABS Troubleshooting: Power, Sensors and the Module"
+description: "Trailer ABS troubleshooting checks the system in order: power to the module, the wheel speed sensors, the modulator, and the fault codes it reports."
+track: maintenance
+kind: article
+order: 230
+isRegulatoryAdjacent: false
+publishedAt: 2026-10-19
+cfr: []
+related:
+  - trailer-abs-light
+  - air-brake-system
+  - trailer-brake-adjustment
+  - semi-trailer-maintenance
+  - semi-truck-brake-inspection
+topics:
+  - brakes_air
+  - lighting_electrical
+nextStep:
+  kind: related
+  target: trailer-abs-light
+  text: "See what a lit trailer ABS light means and what the rule requires"
+---
+
+Trailer ABS troubleshooting starts with the same question every time: does the module have power, and is it seeing a clean signal from every sensor it's reading? Most trailer ABS faults trace back to one of a small number of places — the power supply, a sensor, the modulator, or the module itself — and working through them in order is faster than guessing.
+
+## Power to the module
+
+A trailer's ABS module gets its power through the connector between tractor and trailer, usually on a dedicated auxiliary circuit carried on the 7-way. A damaged pin, a corroded contact or a broken wire anywhere between the tractor's supply and the module can leave the module unpowered or powered only some of the time. Some systems carry diagnostic signal over that same power circuit using power-line carrier (PLC) communication rather than a separate data wire, so a marginal power connection can look like a communication fault.
+
+Check the connector and the wiring before assuming the module itself has failed. See [semi trailer lighting and wiring](/kb/semi-trailer-lighting-and-wiring) for the connector and harness side of this.
+
+## Wheel speed sensors
+
+Each wheel end the ABS monitors has a sensor reading a tone ring or exciter ring as the wheel turns. A sensor can fail to report a clean signal because it's damaged, because it's pushed out of its correct air gap, because it's dirty or contaminated, or because its wiring is cut, chafed or corroded between the sensor and the module. A sensor and ring that look intact can still be out of adjustment; the manufacturer's documentation gives the correct air gap and how to set it for that sensor.
+
+## The modulator
+
+The modulator valve acts on the module's commands to hold, release or modulate air pressure at the brake. A modulator that doesn't respond, that sticks, or that has a wiring fault at its own connector produces a fault even when the sensors and power are good.
+
+## Reading the fault
+
+Once power and the obvious wiring are checked, the module itself reports what it's seeing — through a diagnostic tool, or on some systems through a blink code read at the module. Trailer ABS modules come from a handful of manufacturers — Bendix, WABCO/ZF, Haldex, and Meritor-WABCO among them — and each has its own tool, its own code list, and its own procedure for reading them. There is no single trailer ABS code list: use the documentation published by the module's actual manufacturer, matched to the module on the trailer in front of you, not a code list from a different maker's system.
+
+## Is the fault on the trailer or the tractor?
+
+Because the power and the diagnostic signal both ride through the connector between tractor and trailer, it's worth checking whether the fault follows the trailer or the tractor. If the same trailer shows the fault behind a different tractor, or a known-good trailer shows no fault behind the same tractor, that narrows where to look.
+
+## What should the service record show?
+
+A record of trailer diagnosis and repair should show:
+
+- the trailer's unit number or VIN, and which tractor it was behind when the fault showed;
+- the module maker and the fault codes read, as the tool or blink code reported them;
+- what was checked and found: connector and power, each sensor, the modulator;
+- what was repaired or replaced, with part numbers;
+- whether the fault cleared and the lamp check passed after the repair.
+
+A record kept by the trailer's own unit number or VIN stays with the trailer, whichever tractor pulled it.
+
+## Log the work in Blue Collar Parts
+
+A technician who does this work can log it in Blue Collar Parts and send the record to their customer, who confirms it. [Learn what Blue Collar Parts is](/kb/what-is-blue-collar-parts).
+
+---
+
+*This page describes trailer ABS troubleshooting in general terms. It is not a service manual and does not establish regulatory compliance. Use the ABS manufacturer's current diagnostic documentation for the specific module.*
