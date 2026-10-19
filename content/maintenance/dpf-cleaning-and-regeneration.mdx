@@ -1,0 +1,63 @@
+---
+slug: dpf-cleaning-and-regeneration
+title: "DPF Cleaning and Regeneration: How a Diesel Particulate Filter Is Maintained"
+description: "A DPF traps soot; regeneration burns it off, but not the ash that builds up. How the DPF fits with EGR, DOC and SCR, and when it has to come off for cleaning."
+track: maintenance
+kind: article
+order: 100
+isRegulatoryAdjacent: false
+publishedAt: 2026-10-19
+cfr: []
+related:
+  - dpf-cleaning-vs-regeneration
+  - recording-a-dpf-service
+  - def-and-scr-basics
+  - egr-cooler-replacement
+  - diesel-air-intake-and-exhaust-maintenance
+topics:
+  - aftertreatment_dpf
+nextStep:
+  kind: start
+  target: /start
+  text: "See how a service record is sent to your customer"
+---
+
+**A diesel particulate filter (DPF) traps soot from the exhaust so it isn't released into the air. Regeneration burns that soot off inside the filter. Neither regeneration nor normal driving removes the ash left behind, so the filter eventually has to come off the vehicle or equipment to be cleaned.** This page is the map of DPF service. Each linked page goes deeper on one part of it.
+
+## What the DPF does
+
+Diesel exhaust carries soot: fine particulate from combustion. The DPF is a honeycomb-structured filter, usually ceramic, that sits downstream of the engine and catches that soot as exhaust passes through. Left alone, a filter that keeps collecting soot and never sheds it would plug solid and choke the engine. Regeneration is how the system keeps that from happening.
+
+## Soot versus ash: why one burns off and the other doesn't
+
+- **Soot** is unburned carbon. At a high enough exhaust temperature, soot oxidizes — it burns — and leaves the filter as CO₂ and water vapor. That's what a regeneration does.
+- **Ash** is mineral residue, mostly from engine oil additives and some from fuel, that doesn't burn at exhaust temperatures. It stays in the filter after every regeneration, building up slowly over the life of the filter.
+
+A filter can regenerate normally and still be filling up with ash. Dashboard soot-load warnings and a true ash-cleaning need are different signals, and treating one as the other is a common point of confusion. See [DPF cleaning versus regeneration](/kb/dpf-cleaning-vs-regeneration) for how to tell them apart and what drives each.
+
+## When the filter comes off the equipment
+
+Regeneration happens with the filter in place. Ash removal does not — the filter is removed and cleaned on a dedicated cleaning machine, or exchanged for a cleaned or new unit, following the manufacturer's procedure for that filter. The manufacturer's service documentation sets the interval, the acceptable ash load, and the cleaning method for a given engine and filter; it is not something to estimate by mileage or feel alone.
+
+## How the aftertreatment system fits together
+
+The DPF doesn't work alone. On a modern diesel, EGR works at the engine and the aftertreatment system treats the exhaust after it leaves:
+
+1. **EGR (exhaust gas recirculation)**, at the engine, before the exhaust reaches the aftertreatment, routes some exhaust back into the intake to lower combustion temperatures and reduce the formation of NOx in the first place. See [EGR cooler replacement](/kb/egr-cooler-replacement).
+2. **DOC (diesel oxidation catalyst)** sits ahead of the DPF and oxidizes CO, unburned fuel, and hydrocarbons, and it raises exhaust temperature to help the DPF regenerate.
+3. **DPF** traps soot, as described above.
+4. **SCR (selective catalytic reduction) with DEF (diesel exhaust fluid)** sits downstream of the DPF and converts NOx into nitrogen and water using DEF injected into the exhaust stream. See [DEF and SCR basics](/kb/def-and-scr-basics).
+
+A problem anywhere in that chain — a failing EGR cooler, DEF quality, a DPF overdue for cleaning — can show up as a fault or a derate that looks like it belongs somewhere else. Diagnosing it means checking the whole chain, not just the component throwing the code.
+
+## What this page does not cover
+
+This page and its related pages describe how the system works and what a service provider documents. They don't give make- or model-specific regeneration temperatures, ash load limits, or cleaning intervals — those come from the engine or aftertreatment manufacturer's own service documentation for the specific engine and filter. They also don't cover modifying, removing, or disabling any part of this system; that isn't maintenance, and it isn't covered here.
+
+## Record it in Blue Collar Parts
+
+A DPF cleaning, a parked regeneration you performed, or an EGR cooler replacement is service history your customer should have. [Start a service event](/kb/start-a-service-event) for the work, then [send the record to your customer](/kb/send-a-record-to-your-customer).
+
+---
+
+*This page describes how diesel particulate filters and the surrounding aftertreatment system work in general terms. It is not a service manual and does not establish regulatory compliance. Use the equipment manufacturer's current service documentation for equipment-specific procedures, intervals, and specifications.*
