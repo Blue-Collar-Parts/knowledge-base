@@ -1,0 +1,63 @@
+---
+slug: def-and-scr-basics
+title: "DEF and SCR Basics: What They Do and What a Technician Watches"
+description: "SCR converts NOx from diesel exhaust into nitrogen and water using DEF. What DEF contamination and crystallization look like, and what to record."
+track: maintenance
+kind: article
+order: 103
+isRegulatoryAdjacent: false
+publishedAt: 2026-10-19
+cfr: []
+related:
+  - dpf-cleaning-and-regeneration
+  - dpf-cleaning-vs-regeneration
+  - recording-a-dpf-service
+  - egr-cooler-replacement
+  - diesel-air-intake-and-exhaust-maintenance
+topics:
+  - aftertreatment_dpf
+nextStep:
+  kind: related
+  target: dpf-cleaning-and-regeneration
+  text: "See how SCR fits into the rest of the aftertreatment system"
+---
+
+**Selective catalytic reduction (SCR) is the last stage of a diesel aftertreatment system, and it uses diesel exhaust fluid (DEF) to convert NOx in the exhaust into nitrogen and water.** It sits downstream of the DPF. See [DPF cleaning and regeneration](/kb/dpf-cleaning-and-regeneration) for where SCR fits in the full exhaust path.
+
+## What SCR does
+
+SCR uses a catalyst, housed in its own section of the exhaust system, to convert nitrogen oxides (NOx) — a byproduct of diesel combustion — into nitrogen gas and water vapor, both harmless components of ordinary air. The conversion needs a reducing agent injected into the exhaust ahead of the catalyst: that's DEF, a solution of urea and purified water. An injector doses DEF into the exhaust stream based on exhaust temperature, flow, and NOx readings from sensors before and after the catalyst, so the system is continuously adjusting how much it injects.
+
+## DEF quality and contamination
+
+DEF has a narrow quality specification, because the SCR system is sensitive to what's in it:
+
+- **Dilution or the wrong concentration.** DEF is a precise mixture; adding water or using fluid that's out of spec changes how much reducing agent actually reaches the catalyst.
+- **Contamination.** Diesel fuel, dirt, or other fluids getting into a DEF tank — through a wrong fill, a damaged cap, or a shared or improvised container — can damage the injector or the catalyst.
+- **Age and storage.** DEF degrades with heat, sunlight, and time, especially once a container has been opened. Fluid pulled from an old or improperly stored container is worth questioning, not assuming is fine.
+
+## Crystallization
+
+DEF crystallizes where it evaporates: around a loose fill cap, at a leaking line or fitting, or anywhere a small amount of fluid is exposed to air and left to dry. The result is a white or gray crust, and it can build up enough to bind a cap, clog a vent, or restrict a line. Crystallization at a fitting is also a sign to check that fitting for a leak rather than just cleaning off the crust and moving on.
+
+## Why a DEF fault isn't always the fluid
+
+Many systems have a quality sensor in the DEF tank, and NOx sensors, usually before and after the SCR catalyst, that let the engine control module confirm the conversion is actually happening, not just that DEF was injected. A fault that looks like "bad DEF" can also be a failed quality sensor, a NOx sensor giving a bad reading, a dosing injector that's clogged or stuck, or a wiring problem anywhere in that chain. Before draining and refilling a tank over a quality fault, check what the diagnostic tool actually reported the fault as, since replacing fluid doesn't fix a sensor or an injector.
+
+## What to record
+
+- **DEF quality check**, when performed, and the result — many service tools and quality sensors report DEF quality directly.
+- **Which component the fault pointed to** — tank quality sensor, NOx sensor, dosing injector, or the fluid itself — not just that a DEF-related code was present.
+- **Any contamination found**, what was contaminated, and the correction: drained and refilled tank, replaced injector, replaced sensor.
+- **Crystallization found**, where, and whether it pointed to a leak that was then repaired.
+- **Fault codes related to SCR or DEF dosing**, and how they were resolved.
+
+See [recording a DPF service](/kb/recording-a-dpf-service) for the diagnostic-tool detail an aftertreatment record should carry.
+
+## Record it in Blue Collar Parts
+
+DEF system work is service history your customer should have, the same as any other aftertreatment service. [Start a service event](/kb/start-a-service-event) for the work, then [send the record to your customer](/kb/send-a-record-to-your-customer).
+
+---
+
+*This page describes selective catalytic reduction and diesel exhaust fluid in general terms. It is not a service manual and does not establish regulatory compliance. Use the equipment manufacturer's current service documentation for equipment-specific procedures and specifications.*

@@ -1,0 +1,66 @@
+---
+slug: recording-a-dpf-service
+title: "Recording a DPF Service: What Belongs in the Record"
+description: "What to record for a DPF service: the complaint, cause and correction, the diagnostic tool's readings, the cleaning method, and what the customer's copy shows."
+track: maintenance
+kind: article
+order: 102
+isRegulatoryAdjacent: false
+publishedAt: 2026-10-19
+cfr: []
+related:
+  - dpf-cleaning-and-regeneration
+  - dpf-cleaning-vs-regeneration
+  - def-and-scr-basics
+  - egr-cooler-replacement
+  - complaint-cause-correction
+  - what-belongs-in-a-pm-report-for-the-customer
+topics:
+  - aftertreatment_dpf
+nextStep:
+  kind: start
+  target: /start
+  text: "See how a service record is sent to your customer"
+---
+
+**A DPF service record needs the diagnostic tool's own readings, not just a description of the symptom, because that's what shows the filter actually needed the work and that the work fixed it.** Use the [complaint, cause, correction](/kb/complaint-cause-correction) structure for the write-up itself; this page is what to put in each line for a DPF service specifically.
+
+## What makes a DPF complaint different from a typical one
+
+Most DPF work doesn't start with an operator description the way a noise or a leak does. It starts with a dash lamp, a message center alert, a derate, or a scheduled interval with nothing reported at all. Record which one it was and, where the equipment logs it, when it first appeared. A complaint of "DPF lamp flashing for three days before the visit" points somewhere different than "lamp came on that morning."
+
+## What the diagnostic tool's readings tell you
+
+A visual check can't tell you whether a filter is loaded with soot or ash, so the cause of a DPF complaint comes from the manufacturer's service tool, not an inspection. Record the readings that led to the decision, not just that a decision was made:
+
+- **Differential pressure across the filter.** This is the tool's measure of how restricted the filter is. A before-and-after pair of readings — high going in, back to a normal range after regeneration or cleaning — is what demonstrates the filter was actually the problem and that the service resolved it.
+- **Soot load and ash load estimates**, where the tool reports them separately. A high soot load with a low ash estimate points toward regeneration; a persistently high ash estimate, or a service lamp specifically naming ash, points toward cleaning.
+- **Regeneration history**: how many regenerations the tool shows, and how long or how far since the last one completed. Frequent incomplete regenerations are themselves a finding worth recording, not just background.
+- **Active and stored fault codes**, and any related component the tool flags — a differential pressure sensor, a DEF dosing fault, an EGR fault — since a problem elsewhere in the aftertreatment system can present as a DPF complaint. See [DPF cleaning and regeneration](/kb/dpf-cleaning-and-regeneration) for how the systems connect.
+
+Record the tool's own values, not a paraphrase of them — "pressure reading in the tool's high range" is weaker than the actual number the tool displayed.
+
+## When a filter goes out for cleaning
+
+If the filter is removed rather than regenerated, the record needs to survive the filter leaving your possession and coming back:
+
+- **Identify the specific filter** by its part or serial number before it goes out, so the unit that comes back can be confirmed as the same one — or, if it was exchanged for a cleaned or new unit, record that it was an exchange rather than a return of the original.
+- **Name who performed the cleaning.** If it went to a separate cleaning facility, that's a sublet, and it's recorded as one, the same as any other repair done by someone other than you.
+- **Record anything the cleaning facility reports back** — an ash weight, a differential pressure reading, or a pass/fail on the filter's remaining service life — if they provide it.
+- **Note the date out and the date back in service.**
+
+## Verifying the fix
+
+A completed regeneration or a reinstalled filter isn't verified until you've confirmed it. Record the post-service differential pressure reading, that fault codes cleared and didn't return, and a test run under load where one is appropriate. See [complaint, cause, correction](/kb/complaint-cause-correction) for why verification is what separates "the part was replaced" from "the problem is fixed."
+
+## What the customer's copy should show
+
+The customer doesn't need the raw tool readout. They need what was found, what was done, and what it means going forward — the same four questions any PM report answers. See [what belongs in a PM report for the customer](/kb/what-belongs-in-a-pm-report-for-the-customer) for that structure, and [how to start a service event](/kb/start-a-service-event) for where the work is recorded in Blue Collar Parts.
+
+## Record it in Blue Collar Parts
+
+Add the DPF service to the service event the same way as any other work performed, then send the completed record to your customer. [Start a service event](/kb/start-a-service-event) for the work, then [send the record to your customer](/kb/send-a-record-to-your-customer).
+
+---
+
+*This page describes a general documentation practice. It is not a repair procedure and not a regulatory inspection. Use the equipment manufacturer's current service documentation for diagnosis, procedures, and specifications.*
