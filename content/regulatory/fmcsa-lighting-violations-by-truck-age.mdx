@@ -1,0 +1,61 @@
+---
+slug: fmcsa-lighting-violations-by-truck-age
+title: "Lighting Violations by Truck Age: What FMCSA Roadside Inspections Cite"
+description: "Lighting violations by truck age: 37.6% of cited tractors aged 10-14 had a lighting violation, against 13.5% of cited tractors aged 0-2. Tires run the other way."
+track: regulatory
+kind: article
+order: 240
+isRegulatoryAdjacent: true
+publishedAt: 2026-10-21
+cfr: []
+related:
+  - semi-trailer-lighting-and-wiring
+  - trailer-abs-light
+  - annual-inspection-in-blue-collar-parts
+topics:
+  - lighting_electrical
+  - tires_wheels
+  - roadside_enforcement
+nextStep:
+  kind: related
+  target: annual-inspection-in-blue-collar-parts
+  text: "See how an annual inspection is recorded in Blue Collar Parts"
+---
+
+**Among cited tractors aged 10-14, 37.6% had a lighting violation, against 13.5% of cited tractors aged 0-2 (n = 127,233 and 83,317 cited tractors).** Tires show the other pattern: 20.2% of cited tractors aged 0-2 had a tire violation, against 13.5% of those aged 10-14.
+
+## How these numbers were made
+
+- **Dataset:** FMCSA vehicle inspection data, public roadside inspections, one current version per inspection, with the model year decoded from the VIN using the NHTSA vPIC decoder.
+- **Window:** inspections from 2025-10-19 to 2026-10-18.
+- **Unit:** one inspected tractor in one inspection. A truck inspected twice counts twice.
+- **Population:** cited tractors, meaning tractors with at least one vehicle violation. Units inspected with no violations are not in this data.
+- **Age:** the inspection year minus the decoded model year, in bands of 0-2, 3-5, 6-9, 10-14 and 15+ years. Tractors with no usable model year are in no band.
+- **What the number is:** a mix among cited tractors. It is not a rate. It says what cited tractors of each age looked like, not how likely a tractor of that age is to be cited.
+- **Categories:** FMCSA's own vehicle violation categories, Lighting and Tires. A tractor can have violations in several categories, so the shares do not add to 100%.
+
+## How do lighting violations compare across truck ages?
+
+Share of cited tractors in each age band that had at least one violation in the category.
+
+| Tractor age | Cited tractors (n) | Had a lighting violation | Had a tire violation |
+| --- | --- | --- | --- |
+| 0-2 years | 83,317 | 13.5% | 20.2% |
+| 3-5 years | 107,134 | 21.3% | 15.6% |
+| 6-9 years | 161,547 | 31.1% | 13.8% |
+| 10-14 years | 127,233 | 37.6% | 13.5% |
+| 15+ years | 144,671 | 44.7% | 14.5% |
+
+Read each row by itself: it is the share of that age band's cited tractors with the violation. Counts behind the extremes: 11,207 of 83,317 (lighting, aged 0-2), 47,784 of 127,233 (lighting, aged 10-14), 16,861 of 83,317 (tires, aged 0-2) and 17,174 of 127,233 (tires, aged 10-14).
+
+## What counts as a lighting violation?
+
+It is a violation FMCSA files under its Lighting vehicle category. For how trailer lights and the connector between tractor and trailer are put together, see [semi trailer lighting and wiring](/kb/semi-trailer-lighting-and-wiring). A lit trailer ABS lamp is a different item, covered in [trailer ABS light](/kb/trailer-abs-light).
+
+## What these numbers do not say
+
+They describe what inspectors recorded on cited tractors. They do not show how often tractors of any age are cited, they say nothing about why a mix looks as it does, and they are not a safety rating or a finding about any carrier or truck. Inspectors choose which trucks to stop, so the tractors here are not a sample of all tractors on the road. The same data also lists which checks put units out of service: see [FMCSA out-of-service checks](/kb/fmcsa-out-of-service-checks).
+
+---
+
+*This page reports aggregates of public FMCSA vehicle inspection data for the window stated above. It is informational only and does not constitute legal or regulatory advice. Consult the current [eCFR](https://www.ecfr.gov/current/title-49/part-396) for the rules themselves.*
