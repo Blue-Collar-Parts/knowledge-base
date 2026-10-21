@@ -258,3 +258,40 @@ def test_missing_front_matter(tmp_path):
     (content / "product").mkdir(parents=True)
     (content / "product" / "alpha.mdx").write_text("no front matter", encoding="utf-8")
     assert any("front matter" in e for e in v.validate_content(content))
+
+
+@pytest.mark.parametrize("tone", v.STATUS_TONES)
+def test_status_component_passes(tone):
+    assert check(meta(), body=f'A point reads <Status tone="{tone}">Words</Status>.') == []
+
+
+def test_status_in_a_table_passes():
+    body = '| Mark | Meaning |\n| --- | --- |\n| <Status tone="danger">Defect recorded</Status> | x |'
+    assert check(meta(), body=body) == []
+
+
+@pytest.mark.parametrize("body, fragment", [
+    ('<Status tone="orange">Send</Status>', "must be one of"),
+    ("<Button>Send</Button>", "not a knowledge-base component"),
+    ("<Status>Passed</Status>", "not a knowledge-base component"),
+    ("<Status tone={x}>Passed</Status>", "not a knowledge-base component"),
+    ('## Why <Status tone="success">Passed</Status>', "not allowed in a heading"),
+])
+def test_status_component_rules(body, fragment):
+    assert has(check(meta(), body=body), fragment)
+
+
+def test_status_is_product_only():
+    m = meta(track="regulatory", isRegulatoryAdjacent=True)
+    errs = check(m, body='<Status tone="danger">Out of service</Status>', track_dir="regulatory")
+    assert has(errs, "product pages only")
+
+
+def test_tags_in_code_are_text():
+    body = "Write `<Button>` like this:\n\n```mdx\n<OutcomeSummary />\n```"
+    assert check(meta(), body=body) == []
+
+
+def test_status_not_in_qa():
+    m = meta(kind="faq", qa=[{"question": "Q?", "answer": 'It reads <Status tone="success">Passed</Status>.'}])
+    assert has(check(m), "must not contain components")

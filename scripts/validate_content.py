@@ -173,6 +173,45 @@ def _non_code_body(body: str) -> str:
     return "\n".join(out)
 
 
+STATUS_TONES = ("neutral", "info", "success", "warning", "danger")
+STATUS_TAG_RE = re.compile(r'<Status tone="([a-z]+)">([^<>\n]+)</Status>')
+COMPONENT_TAG_RE = re.compile(r"</?[A-Z][A-Za-z0-9]*\b[^>]*>")
+INLINE_CODE_RE = re.compile(r"`[^`\n]+`")
+
+
+def _check_components(meta: dict, body: str, track: object) -> list[str]:
+    """`<Status tone="…">Words</Status>` is the only component, on product pages only."""
+    errs: list[str] = []
+    used = False
+    for line in _non_code_body(body).splitlines():
+        line = INLINE_CODE_RE.sub("", line)
+        for match in STATUS_TAG_RE.finditer(line):
+            used = True
+            if match.group(1) not in STATUS_TONES:
+                errs.append(
+                    f'<Status tone="{match.group(1)}"> must be one of {", ".join(STATUS_TONES)}'
+                )
+            if line.lstrip().startswith("#"):
+                errs.append("<Status> is not allowed in a heading")
+        stray = COMPONENT_TAG_RE.search(STATUS_TAG_RE.sub("", line))
+        if stray:
+            errs.append(
+                f"{stray.group(0)} is not a knowledge-base component; the only one is "
+                '<Status tone="…">Words</Status>'
+            )
+    if used and track != "product":
+        errs.append("<Status> is allowed on product pages only")
+    qa = meta.get("qa")
+    if isinstance(qa, list):
+        for item in qa:
+            if isinstance(item, dict) and any(
+                COMPONENT_TAG_RE.search(str(item.get(k, ""))) for k in ("question", "answer")
+            ):
+                errs.append("`qa` questions and answers must not contain components")
+                break
+    return errs
+
+
 def _kb_link_slugs(body: str) -> list[str]:
     slugs: list[str] = []
     text = _non_code_body(body)
@@ -299,6 +338,7 @@ def validate_page(
 
     errs.extend(_check_topics(meta, cfr, load_topic_vocabulary()))
     errs.extend(_check_next_step(meta, stem, all_slugs))
+    errs.extend(_check_components(meta, body, track))
 
     for linked in _kb_link_slugs(body):
         if linked not in all_slugs:
