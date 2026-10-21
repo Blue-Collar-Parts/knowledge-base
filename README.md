@@ -84,7 +84,8 @@ nextStep:
   `text` is required.
 - `start`: `target` is `/start` or `/start/<name>`, with `<name>` in lowercase
   letters, digits and hyphens. `text` is required. Use it only where the product
-  offers that work today. Annual DOT inspection pages use `related`.
+  offers that work today. Regulatory pages about the annual DOT inspection use
+  `related`.
 - `none`: omit `target` and `text`.
 - `text` is plain, descriptive link text. It is never "Build your record." and
   never says a record satisfies or complies with a regulation.
