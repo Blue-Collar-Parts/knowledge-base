@@ -180,16 +180,25 @@ def _non_code_body(body: str) -> str:
 
 STATUS_TONES = ("neutral", "info", "success", "warning", "danger")
 STATUS_TAG_RE = re.compile(r'<Status tone="([a-z]+)">([^<>\n]+)</Status>')
+# A screen of the demonstration account, alone on its line (a figure cannot sit
+# in a paragraph). The website keeps the frames and the list of names; a name it
+# does not list fails its loader when this content is synced.
+# The words take no braces (MDX reads an expression) and no * or _ (the prose
+# copies carry them inside an italic line).
+CAPTURE_TAG_RE = re.compile(r'^<Capture frame="([a-z0-9]+(?:-[a-z0-9]+)*)">([^<>{}*_\n]+)</Capture>[ \t]*$')
 COMPONENT_TAG_RE = re.compile(r"</?[A-Z][A-Za-z0-9]*\b[^>]*>")
 INLINE_CODE_RE = re.compile(r"`[^`\n]+`")
+COMPONENTS_HINT = '<Status tone="…">Words</Status> and <Capture frame="…">Words</Capture> on its own line'
 
 
 def _check_components(meta: dict, body: str, track: object) -> list[str]:
-    """`<Status tone="…">Words</Status>` is the only component, on product pages only."""
+    """`<Status>` (product pages only) and `<Capture>` (own line, any track) are the only components."""
     errs: list[str] = []
     used = False
     for line in _non_code_body(body).splitlines():
         line = INLINE_CODE_RE.sub("", line)
+        if CAPTURE_TAG_RE.match(line):
+            continue
         for match in STATUS_TAG_RE.finditer(line):
             used = True
             if match.group(1) not in STATUS_TONES:
@@ -201,8 +210,8 @@ def _check_components(meta: dict, body: str, track: object) -> list[str]:
         stray = COMPONENT_TAG_RE.search(STATUS_TAG_RE.sub("", line))
         if stray:
             errs.append(
-                f"{stray.group(0)} is not a knowledge-base component; the only one is "
-                '<Status tone="…">Words</Status>'
+                f"{stray.group(0)} is not a knowledge-base component; the only ones are "
+                + COMPONENTS_HINT
             )
     if used and track != "product":
         errs.append("<Status> is allowed on product pages only")

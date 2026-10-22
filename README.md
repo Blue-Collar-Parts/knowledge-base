@@ -224,6 +224,24 @@ copy thresholds into this repository as though they were canonical.
    rejects any other component, `<Status>` outside the product track or in a
    heading, and any component in `qa`. See
    `content/product/reading-a-service-record.mdx`.
+5. **Show the screen, from the demonstration account.** Any page may place a
+   screen of the product, alone on its own line:
+
+   ```mdx
+   <Capture frame="record-hl-214-pm-sent-4">The service record for a tractor PM, sent with its faults found</Capture>
+   ```
+
+   The frames are captures of the seeded demonstration account, never a real
+   customer's record. The website keeps them and the list of names
+   (bcp-web `lib/kb-captures.ts`); they are not part of this repository or its
+   license. The site puts the label "Example record · sample data" on the frame.
+   The words are the image's alt text and caption, and the only thing the `.md`
+   and `.json` copies and `llms-full.txt` keep, so they must describe the screen
+   on their own and say only what it shows. On a maintenance or regulatory
+   page, keep a capture in its own short section about how Blue Collar Parts
+   records the work, never inside the regulatory or maintenance guidance, and
+   claim nothing about compliance. A new frame lands in bcp-web before a page
+   that names it is synced.
 
 ## Rules for maintenance content
 

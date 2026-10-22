@@ -299,6 +299,33 @@ def test_tags_in_code_are_text():
     assert check(meta(), body=body) == []
 
 
+CAPTURE = '<Capture frame="record-hl-214-pm-sent-4">The service record with its faults found</Capture>'
+
+
+@pytest.mark.parametrize("track", ["product", "maintenance", "regulatory", "business"])
+def test_capture_on_its_own_line_passes_on_any_track(track):
+    m = meta(track=track, isRegulatoryAdjacent=track == "regulatory")
+    assert check(m, body=f"How it is recorded:\n\n{CAPTURE}\n\nMore prose.", track_dir=track) == []
+
+
+@pytest.mark.parametrize("body", [
+    f"See {CAPTURE} here.",
+    f"## {CAPTURE}",
+    '<Capture frame="console-work-1" />',
+    "<Capture frame={x}>Words</Capture>",
+    '<Capture frame="Console_Work">Words</Capture>',
+    '<Capture frame="console-work-1">The {list}</Capture>',
+    '<Capture frame="console-work-1">The *Work* list</Capture>',
+])
+def test_capture_rules(body):
+    assert has(check(meta(), body=body), "not a knowledge-base component")
+
+
+def test_capture_not_in_qa():
+    m = meta(kind="faq", qa=[{"question": "Q?", "answer": CAPTURE}])
+    assert has(check(m), "must not contain components")
+
+
 def test_status_not_in_qa():
     m = meta(kind="faq", qa=[{"question": "Q?", "answer": 'It reads <Status tone="success">Passed</Status>.'}])
     assert has(check(m), "must not contain components")
