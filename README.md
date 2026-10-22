@@ -172,6 +172,20 @@ copy thresholds into this repository as though they were canonical.
 2. **Don't imply compliance.** A capability is not a compliance guarantee. See
    `content/product/bcp-and-part-396-recordkeeping.mdx` for the tone to match.
 3. **Prices and commercial terms are indicative**, and should say so.
+4. **Show a state the way the record shows it.** A product page may use one
+   component, the service record's status badge:
+
+   ```mdx
+   <Status tone="success">Passed</Status>
+   ```
+
+   `tone` is `neutral`, `info`, `success`, `warning` or `danger`, and the words
+   are the record's own words for that state. The site renders the badge with
+   its color and shape. The `.md` and `.json` copies and `llms-full.txt` keep
+   only the words, so the words must say the state on their own. The validator
+   rejects any other component, `<Status>` outside the product track or in a
+   heading, and any component in `qa`. See
+   `content/product/reading-a-service-record.mdx`.
 
 ## Rules for maintenance content
 
