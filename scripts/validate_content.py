@@ -437,8 +437,8 @@ def _step_of(meta: dict) -> dict | None:
     return step if isinstance(step, dict) else None
 
 
-def _skipped_by_click_check(meta: dict, metas: dict[str, dict]) -> bool:
-    """True when the page's own nextStep is malformed or dangling.
+def _skipped_by_click_check(slug: str, meta: dict, metas: dict[str, dict]) -> bool:
+    """True when the page's own nextStep is malformed, dangling or self-referencing.
 
     The per-page check already reports those, so the click-path check does not
     report the same page a second time.
@@ -450,7 +450,7 @@ def _skipped_by_click_check(meta: dict, metas: dict[str, dict]) -> bool:
         return True
     if step["kind"] == "related":
         target = step.get("target")
-        return not isinstance(target, str) or target not in metas
+        return not isinstance(target, str) or target not in metas or target == slug
     return False
 
 
@@ -462,7 +462,7 @@ def check_click_paths(metas: dict[str, dict]) -> dict[str, str]:
     """
     failures: dict[str, str] = {}
     for slug in sorted(metas):
-        if _skipped_by_click_check(metas[slug], metas):
+        if _skipped_by_click_check(slug, metas[slug], metas):
             continue
         msg = _click_path_failure(slug, metas)
         if msg:
@@ -475,17 +475,19 @@ def _click_path_failure(slug: str, metas: dict[str, dict]) -> str | None:
     current = slug
     while True:
         step = _step_of(metas[current])
-        where = "" if current == slug else f"chain reaches {current}, whose "
-        trail = " -> ".join(chain)
+        at_start = current == slug
+
+        def fail(problem: str) -> str:
+            where = "" if at_start else f"chain reaches {current}, whose "
+            return f"{where}{problem}: {' -> '.join(chain)}"
+
         if step is None:
             if "nextStep" in metas[current]:
-                return f"{where}nextStep is invalid: {trail}"
-            return "no nextStep" if not where else f"{where}page has no nextStep: {trail}"
+                return fail("nextStep is invalid")
+            return "no nextStep" if at_start else fail("page has no nextStep")
         kind = step.get("kind")
         if kind == "none":
-            if not where:
-                return "nextStep kind is none"
-            return f"{where}nextStep kind is none: {trail}"
+            return "nextStep kind is none" if at_start else fail("nextStep kind is none")
         if kind == "start":
             target = step.get("target")
             chain.append(target if isinstance(target, str) else "/start")
@@ -495,11 +497,11 @@ def _click_path_failure(slug: str, metas: dict[str, dict]) -> str | None:
             return None
         target = step.get("target")
         if kind != "related" or not isinstance(target, str):
-            return f"{where}nextStep is invalid: {trail}"
+            return fail("nextStep is invalid")
         if target not in metas:
-            return f"chain reaches unknown page: {trail} -> {target}"
+            return f"chain reaches unknown page: {' -> '.join(chain)} -> {target}"
         if target in chain:
-            return f"loop: {trail} -> {target}"
+            return f"loop: {' -> '.join(chain)} -> {target}"
         chain.append(target)
         current = target
 
@@ -528,7 +530,8 @@ def apply_click_path_allowlist(
     for slug in sorted(allowlist):
         if slug not in metas:
             problems.append(f"`{slug}` is not a page; remove it from the allowlist")
-        elif slug not in failures and not _skipped_by_click_check(metas[slug], metas):
+        # A skipped page is neither failing nor stale.
+        elif slug not in failures and not _skipped_by_click_check(slug, metas[slug], metas):
             problems.append(
                 f"`{slug}` already meets the click-path standard; remove it from the allowlist"
             )
@@ -564,10 +567,13 @@ def validate_content(
             if slug in slug_owner:
                 errors.append(
                     f"{rel}: slug `{slug}` is already used by "
-                    f"{slug_owner[slug].relative_to(content_dir.parent)}"
+                    f"{owner_rel(slug)}"
                 )
             else:
                 slug_owner[slug] = path
+
+    def owner_rel(slug: str) -> Path:
+        return slug_owner[slug].relative_to(content_dir.parent)
 
     all_slugs = set(slug_owner)
     for path, meta, body in pages:
@@ -580,12 +586,12 @@ def validate_content(
     failures = check_click_paths(metas)
     unallowed, allowed, problems = apply_click_path_allowlist(failures, metas, allowlist or {})
     for slug, msg in unallowed.items():
-        errors.append(f"{slug_owner[slug].relative_to(content_dir.parent)}: {msg}")
+        errors.append(f"{owner_rel(slug)}: {msg}")
     for msg in problems:
         errors.append(f"{ALLOWLIST_FILE.name}: {msg}")
     if notes is not None:
         for slug, msg in allowed.items():
-            notes.append(f"{slug_owner[slug].relative_to(content_dir.parent)}: {msg}")
+            notes.append(f"{owner_rel(slug)}: {msg}")
     return errors
 
 
