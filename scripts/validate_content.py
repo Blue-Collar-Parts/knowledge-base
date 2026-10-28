@@ -552,6 +552,9 @@ def validate_content(
     pages: list[tuple[Path, dict, str]] = []
     slug_owner: dict[str, Path] = {}
 
+    def owner_rel(slug: str) -> Path:
+        return slug_owner[slug].relative_to(content_dir.parent)
+
     files = sorted(
         p for p in content_dir.rglob("*") if p.suffix in (".mdx", ".md") and p.is_file()
     )
@@ -571,9 +574,6 @@ def validate_content(
                 )
             else:
                 slug_owner[slug] = path
-
-    def owner_rel(slug: str) -> Path:
-        return slug_owner[slug].relative_to(content_dir.parent)
 
     all_slugs = set(slug_owner)
     for path, meta, body in pages:
