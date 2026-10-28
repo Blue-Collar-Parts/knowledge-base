@@ -236,7 +236,14 @@ order: 10
 isRegulatoryAdjacent: false
 publishedAt: 2026-01-01
 cfr: []
+nextStep:
+  kind: start
+  target: /start
+  text: Get started
 """
+
+STEP_BLOCK = "nextStep:\n  kind: start\n  target: /start\n  text: Get started\n"
+FRONT_NO_STEP = FRONT.format(slug="alpha").replace(STEP_BLOCK, "")
 
 
 def test_repo_walk_duplicate_slug_across_tracks(tmp_path):
@@ -295,3 +302,130 @@ def test_tags_in_code_are_text():
 def test_status_not_in_qa():
     m = meta(kind="faq", qa=[{"question": "Q?", "answer": 'It reads <Status tone="success">Passed</Status>.'}])
     assert has(check(m), "must not contain components")
+
+
+# ---------------------------------------------------------------------------
+# Click-path check
+# ---------------------------------------------------------------------------
+def start(target="/start/x"):
+    return {"kind": "start", "target": target, "text": "Go"}
+
+
+def related(target):
+    return {"kind": "related", "target": target, "text": "See"}
+
+
+def corpus(**steps):
+    """slug -> meta; a value of None leaves nextStep out."""
+    return {s: ({"slug": s} if st is None else {"slug": s, "nextStep": st})
+            for s, st in steps.items()}
+
+
+def test_click_direct_start_passes():
+    assert v.check_click_paths(corpus(a=start())) == {}
+
+
+def test_click_related_then_start_passes():
+    assert v.check_click_paths(corpus(a=related("b"), b=start())) == {}
+
+
+def test_click_three_clicks_fails():
+    out = v.check_click_paths(corpus(a=related("b"), b=related("c"), c=start("/start/x")))
+    assert out == {"a": "3 clicks to /start (limit 2): a -> b -> c -> /start/x"}
+
+
+def test_click_loop_fails():
+    out = v.check_click_paths(corpus(a=related("b"), b=related("a")))
+    assert out == {"a": "loop: a -> b -> a", "b": "loop: b -> a -> b"}
+
+
+def test_click_three_page_cycle_fails():
+    out = v.check_click_paths(corpus(a=related("b"), b=related("c"), c=related("a")))
+    assert out["a"] == "loop: a -> b -> c -> a"
+    assert set(out) == {"a", "b", "c"}
+
+
+def test_click_feeder_into_loop_fails():
+    out = v.check_click_paths(corpus(f=related("a"), a=related("b"), b=related("a")))
+    assert out["f"] == "loop: f -> a -> b -> a"
+
+
+def test_click_kind_none_fails():
+    assert v.check_click_paths(corpus(a={"kind": "none"})) == {"a": "nextStep kind is none"}
+
+
+def test_click_absent_next_step_fails():
+    assert v.check_click_paths(corpus(a=None)) == {"a": "no nextStep"}
+
+
+def test_click_chain_through_page_without_step_fails():
+    out = v.check_click_paths(corpus(a=related("b"), b=None))
+    assert has([out["a"]], "chain reaches b") and has([out["a"]], "no nextStep")
+
+
+def test_click_dangling_target_not_double_reported():
+    out = v.check_click_paths(corpus(a=related("zzz"), up=related("a"), ok=start()))
+    assert "a" not in out
+    assert out["up"] == "chain reaches unknown page: up -> a -> zzz"
+    assert "ok" not in out
+
+
+def test_click_malformed_step_not_double_reported():
+    assert v.check_click_paths(corpus(a={"kind": "cta"})) == {}
+    assert v.check_click_paths(corpus(a="oops")) == {}
+
+
+def test_click_error_names_file_in_repo_walk(tmp_path):
+    content = tmp_path / "content"
+    write(content / "product" / "alpha.mdx", FRONT_NO_STEP)
+    assert v.validate_content(content) == ["content/product/alpha.mdx: no nextStep"]
+
+
+def _self_ref_front():
+    return FRONT.format(slug="alpha").replace(
+        STEP_BLOCK, "nextStep:\n  kind: related\n  target: alpha\n  text: See\n"
+    )
+
+
+def test_self_referencing_page_reported_once(tmp_path):
+    content = tmp_path / "content"
+    write(content / "product" / "alpha.mdx", _self_ref_front())
+    errs = v.validate_content(content)
+    assert len(errs) == 1 and "own slug" in errs[0]
+
+
+def test_self_referencing_page_not_stale_when_allowlisted(tmp_path):
+    content = tmp_path / "content"
+    write(content / "product" / "alpha.mdx", _self_ref_front())
+    errs = v.validate_content(content, {"alpha": "x"})
+    assert len(errs) == 1 and "own slug" in errs[0] and "remove it" not in errs[0]
+
+
+def test_allowlisted_page_passes_with_note(tmp_path):
+    content = tmp_path / "content"
+    write(content / "product" / "alpha.mdx", FRONT_NO_STEP)
+    notes: list[str] = []
+    assert v.validate_content(content, {"alpha": "backfill pending"}, notes) == []
+    assert len(notes) == 1 and "alpha.mdx" in notes[0] and "backfill pending" in notes[0]
+
+
+def test_stale_allowlist_entry_fails(tmp_path):
+    content = tmp_path / "content"
+    write(content / "product" / "alpha.mdx", FRONT.format(slug="alpha"))
+    errs = v.validate_content(content, {"alpha": "backfill pending"})
+    assert len(errs) == 1 and "already meets" in errs[0] and "remove it" in errs[0]
+
+
+def test_unknown_allowlist_slug_fails(tmp_path):
+    content = tmp_path / "content"
+    write(content / "product" / "alpha.mdx", FRONT.format(slug="alpha"))
+    errs = v.validate_content(content, {"gone": "backfill pending"})
+    assert len(errs) == 1 and "`gone` is not a page" in errs[0]
+
+
+def test_committed_allowlist_matches_the_corpus():
+    allow = v.load_click_path_allowlist()
+    notes: list[str] = []
+    root = Path(__file__).resolve().parents[1] / "content"
+    assert v.validate_content(root, allow, notes) == []
+    assert len(notes) == len(allow)
