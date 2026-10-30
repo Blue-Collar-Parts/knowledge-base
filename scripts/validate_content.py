@@ -180,24 +180,40 @@ def _non_code_body(body: str) -> str:
 
 STATUS_TONES = ("neutral", "info", "success", "warning", "danger")
 STATUS_TAG_RE = re.compile(r'<Status tone="([a-z]+)">([^<>\n]+)</Status>')
-# A screen of the demonstration account, alone on its line (a figure cannot sit
-# in a paragraph). The website keeps the frames and the list of names; a name it
-# does not list fails its loader when this content is synced.
-# The words take no braces (MDX reads an expression) and no * or _ (the prose
-# copies carry them inside an italic line).
-CAPTURE_TAG_RE = re.compile(r'^<Capture frame="([a-z0-9]+(?:-[a-z0-9]+)*)">([^<>{}*_\n]+)</Capture>[ \t]*$')
+# A screen of the product, drawn from code on sample data by the website, alone
+# on its line (a figure cannot sit in a paragraph). The website owns each
+# screen's caption words, so the tag takes no children and no other attributes.
+# Kept in step with bcp-web lib/kb-demos.ts KB_DEMO_SCREENS.
+DEMO_SCREENS = (
+    "record",
+    "calendar",
+    "customer",
+    "asset",
+    "walk",
+    "send",
+    "maintenance-status",
+)
+DEMO_TAG_RE = re.compile(r'^<Demo screen="([^"<>{}\n]*)" />[ \t]*$')
 COMPONENT_TAG_RE = re.compile(r"</?[A-Z][A-Za-z0-9]*\b[^>]*>")
 INLINE_CODE_RE = re.compile(r"`[^`\n]+`")
-COMPONENTS_HINT = '<Status tone="…">Words</Status> and <Capture frame="…">Words</Capture> on its own line'
+COMPONENTS_HINT = '<Status tone="…">Words</Status> and <Demo screen="…" /> on its own line'
 
 
 def _check_components(meta: dict, body: str, track: object) -> list[str]:
-    """`<Status>` (product pages only) and `<Capture>` (own line, any track) are the only components."""
+    """`<Status>` (product pages only) and `<Demo>` (own line, any track, each screen once) are the only components."""
     errs: list[str] = []
     used = False
+    demos_seen: set[str] = set()
     for line in _non_code_body(body).splitlines():
         line = INLINE_CODE_RE.sub("", line)
-        if CAPTURE_TAG_RE.match(line):
+        demo = DEMO_TAG_RE.match(line)
+        if demo:
+            screen = demo.group(1)
+            if screen not in DEMO_SCREENS:
+                errs.append(f'<Demo screen="{screen}" /> must be one of {", ".join(DEMO_SCREENS)}')
+            elif screen in demos_seen:
+                errs.append(f'<Demo screen="{screen}" /> appears twice; use each screen once per page')
+            demos_seen.add(screen)
             continue
         for match in STATUS_TAG_RE.finditer(line):
             used = True
