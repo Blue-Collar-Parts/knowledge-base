@@ -224,6 +224,25 @@ copy thresholds into this repository as though they were canonical.
    rejects any other component, `<Status>` outside the product track or in a
    heading, and any component in `qa`. See
    `content/product/reading-a-service-record.mdx`.
+5. **Show the screen, drawn from code.** Any page may place a screen of the
+   product, alone on its own line:
+
+   ```mdx
+   <Demo screen="record" />
+   ```
+
+   The website draws the screen from code on sample data and puts the label
+   "Example record · sample data" on it. It is never a screenshot and never a
+   real customer's record; do not add screenshots or images to the knowledge
+   base. `screen` is one of `record`, `calendar`, `customer`, `asset`, `walk`,
+   `send` or `maintenance-status`. Use each screen at most once per page. The
+   tag takes no children and no other attributes: bcp-web owns each screen's
+   caption words (`lib/kb-demos.ts`), so write the prose around it to stand
+   on its own. The validator rejects an unknown screen, a screen used twice on a
+   page, a tag inline or in a heading, and any component in `qa`. On a
+   maintenance or regulatory page, keep a screen in its own short section about
+   how Blue Collar Parts records the work, never inside the regulatory or
+   maintenance guidance, and claim nothing about compliance.
 
 ## Rules for maintenance content
 

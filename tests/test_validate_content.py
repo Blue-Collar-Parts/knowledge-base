@@ -299,6 +299,52 @@ def test_tags_in_code_are_text():
     assert check(meta(), body=body) == []
 
 
+DEMO = '<Demo screen="record" />'
+
+
+@pytest.mark.parametrize("track", ["product", "maintenance", "regulatory", "business"])
+def test_demo_on_its_own_line_passes_on_any_track(track):
+    m = meta(track=track, isRegulatoryAdjacent=track == "regulatory")
+    assert check(m, body=f"How it is recorded:\n\n{DEMO}\n\nMore prose.", track_dir=track) == []
+
+
+@pytest.mark.parametrize("screen", v.DEMO_SCREENS)
+def test_every_listed_demo_screen_passes(screen):
+    assert check(meta(), body=f'<Demo screen="{screen}" />') == []
+
+
+def test_different_demo_screens_on_one_page_pass():
+    assert check(meta(), body='<Demo screen="record" />\n\nText.\n\n<Demo screen="send" />') == []
+
+
+def test_unknown_demo_screen_is_rejected():
+    assert has(check(meta(), body='<Demo screen="dashboard" />'), "must be one of")
+
+
+def test_same_demo_screen_twice_is_rejected():
+    assert has(check(meta(), body=f"{DEMO}\n\nText.\n\n{DEMO}"), "appears twice")
+
+
+@pytest.mark.parametrize("body", [
+    f"See {DEMO} here.",
+    f"## {DEMO}",
+    '<Demo screen="record">Words</Demo>',
+    '<Demo screen="record" caption="x" />',
+    '<Demo screen="record"/>',
+    "<Demo screen={x} />",
+    "<Demo />",
+    '<Capture frame="console-work-1">The Work list</Capture>',
+    '<Capture frame="console-work-1" />',
+])
+def test_demo_rules_and_capture_rejected(body):
+    assert has(check(meta(), body=body), "not a knowledge-base component")
+
+
+def test_demo_not_in_qa():
+    m = meta(kind="faq", qa=[{"question": "Q?", "answer": DEMO}])
+    assert has(check(m), "must not contain components")
+
+
 def test_status_not_in_qa():
     m = meta(kind="faq", qa=[{"question": "Q?", "answer": 'It reads <Status tone="success">Passed</Status>.'}])
     assert has(check(m), "must not contain components")

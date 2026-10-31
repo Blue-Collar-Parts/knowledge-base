@@ -180,16 +180,41 @@ def _non_code_body(body: str) -> str:
 
 STATUS_TONES = ("neutral", "info", "success", "warning", "danger")
 STATUS_TAG_RE = re.compile(r'<Status tone="([a-z]+)">([^<>\n]+)</Status>')
+# A screen of the product, drawn from code on sample data by the website, alone
+# on its line (a figure cannot sit in a paragraph). The website owns each
+# screen's caption words, so the tag takes no children and no other attributes.
+# Kept in step with bcp-web lib/kb-demos.ts KB_DEMO_SCREENS.
+DEMO_SCREENS = (
+    "record",
+    "calendar",
+    "customer",
+    "asset",
+    "walk",
+    "send",
+    "maintenance-status",
+)
+DEMO_TAG_RE = re.compile(r'^<Demo screen="([^"<>{}\n]*)" />[ \t]*$')
 COMPONENT_TAG_RE = re.compile(r"</?[A-Z][A-Za-z0-9]*\b[^>]*>")
 INLINE_CODE_RE = re.compile(r"`[^`\n]+`")
+COMPONENTS_HINT = '<Status tone="…">Words</Status> and <Demo screen="…" /> on its own line'
 
 
 def _check_components(meta: dict, body: str, track: object) -> list[str]:
-    """`<Status tone="…">Words</Status>` is the only component, on product pages only."""
+    """`<Status>` (product pages only) and `<Demo>` (own line, any track, each screen once) are the only components."""
     errs: list[str] = []
     used = False
+    demos_seen: set[str] = set()
     for line in _non_code_body(body).splitlines():
         line = INLINE_CODE_RE.sub("", line)
+        demo = DEMO_TAG_RE.match(line)
+        if demo:
+            screen = demo.group(1)
+            if screen not in DEMO_SCREENS:
+                errs.append(f'<Demo screen="{screen}" /> must be one of {", ".join(DEMO_SCREENS)}')
+            elif screen in demos_seen:
+                errs.append(f'<Demo screen="{screen}" /> appears twice; use each screen once per page')
+            demos_seen.add(screen)
+            continue
         for match in STATUS_TAG_RE.finditer(line):
             used = True
             if match.group(1) not in STATUS_TONES:
@@ -201,8 +226,8 @@ def _check_components(meta: dict, body: str, track: object) -> list[str]:
         stray = COMPONENT_TAG_RE.search(STATUS_TAG_RE.sub("", line))
         if stray:
             errs.append(
-                f"{stray.group(0)} is not a knowledge-base component; the only one is "
-                '<Status tone="…">Words</Status>'
+                f"{stray.group(0)} is not a knowledge-base component; the only ones are "
+                + COMPONENTS_HINT
             )
     if used and track != "product":
         errs.append("<Status> is allowed on product pages only")
