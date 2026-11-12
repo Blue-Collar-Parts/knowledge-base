@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Validate the knowledge base content.
 
-Checks front matter against the rules in README.md, internal links, and that
-page text carries no figures from private data classes.
+Checks front matter against the rules in README.md, internal links, data
+figures and their files (kb_figures.py), and that page text carries no figures
+from private data classes.
 
 Usage: python3 scripts/validate_content.py [content-dir]
 Exit status: 0 when every page passes, 1 otherwise.
@@ -16,6 +17,8 @@ from pathlib import Path
 
 import yaml
 
+import kb_figures
+
 TRACKS = ("regulatory", "product", "maintenance", "business")
 KINDS = ("article", "faq")
 STATUSES = ("available", "in-development")
@@ -26,6 +29,7 @@ CFR_RE = re.compile(r"^49 CFR (Part 396 Appendix A|\d{3}\.\d+(\([a-z0-9]+\))*)$"
 START_TARGET_RE = re.compile(r"^/start(/[a-z0-9]+(-[a-z0-9]+)*)?$")
 
 TOPICS_FILE = Path(__file__).resolve().parents[1] / "vocabulary" / "topics.json"
+CONTENT_DIR = Path(__file__).resolve().parents[1] / "content"
 ALLOWLIST_FILE = Path(__file__).resolve().parent / "click_path_allowlist.json"
 
 # A page must reach a `start` step in at most this many clicks. Provisional
@@ -196,15 +200,21 @@ DEMO_SCREENS = (
 DEMO_TAG_RE = re.compile(r'^<Demo screen="([^"<>{}\n]*)" />[ \t]*$')
 COMPONENT_TAG_RE = re.compile(r"</?[A-Z][A-Za-z0-9]*\b[^>]*>")
 INLINE_CODE_RE = re.compile(r"`[^`\n]+`")
-COMPONENTS_HINT = '<Status tone="…">Words</Status> and <Demo screen="…" /> on its own line'
+COMPONENTS_HINT = (
+    '<Status tone="…">Words</Status>, <Demo screen="…" /> on its own line, and '
+    + kb_figures.TAG_HINT
+)
 
 
 def _check_components(meta: dict, body: str, track: object) -> list[str]:
-    """`<Status>` (product pages only) and `<Demo>` (own line, any track, each screen once) are the only components."""
+    """`<Status>` (product pages only), `<Demo>` (own line, any track, each screen once)
+    and `<KbDataFigure>` (own line, above its table; checked in kb_figures) are the only components."""
     errs: list[str] = []
     used = False
     demos_seen: set[str] = set()
     for line in _non_code_body(body).splitlines():
+        if kb_figures.TAG_RE.fullmatch(line):
+            continue
         line = INLINE_CODE_RE.sub("", line)
         demo = DEMO_TAG_RE.match(line)
         if demo:
@@ -274,7 +284,12 @@ def _text_for_scan(meta: dict, body: str) -> str:
 
 
 def validate_page(
-    meta: dict, body: str, track_dir: str, stem: str, all_slugs: set[str]
+    meta: dict,
+    body: str,
+    track_dir: str,
+    stem: str,
+    all_slugs: set[str],
+    content_dir: Path = CONTENT_DIR,
 ) -> list[str]:
     errs: list[str] = []
 
@@ -292,6 +307,8 @@ def validate_page(
     slug = meta.get("slug")
     if _is_str(slug) and slug != stem:
         errs.append(f"slug `{slug}` must match filename `{stem}`")
+    if slug == kb_figures.FIGURE_DIR:
+        errs.append(f"slug `{slug}` is reserved: /kb/{kb_figures.FIGURE_DIR}/ serves the figure files")
 
     track = meta.get("track")
     if "track" in meta:
@@ -369,6 +386,8 @@ def validate_page(
     errs.extend(_check_topics(meta, cfr, load_topic_vocabulary()))
     errs.extend(_check_next_step(meta, stem, all_slugs))
     errs.extend(_check_components(meta, body, track))
+    errs.extend(kb_figures.check_data_figures(body, content_dir))
+    errs.extend(kb_figures.check_page_images(meta, content_dir))
 
     for linked in _kb_link_slugs(body):
         if linked not in all_slugs:
@@ -604,8 +623,11 @@ def validate_content(
     for path, meta, body in pages:
         rel = path.relative_to(content_dir.parent)
         track_dir = path.relative_to(content_dir).parts[0]
-        for msg in validate_page(meta, body, track_dir, path.stem, all_slugs):
+        for msg in validate_page(meta, body, track_dir, path.stem, all_slugs, content_dir):
             errors.append(f"{rel}: {msg}")
+
+    for msg in kb_figures.check_figure_directory(content_dir):
+        errors.append(f"{content_dir.name}/{msg}")
 
     metas = {m["slug"]: m for _, m, _ in pages if _is_str(m.get("slug"))}
     failures = check_click_paths(metas)

@@ -19,6 +19,7 @@ content/
   product/      what the Blue Collar Parts platform does
   maintenance/  practical, non-regulatory preventive-maintenance guidance
   business/     practical guidance for technicians who run a service business
+  figures/      not a track: image files for data figures and page images
 ```
 
 The tracks are kept separate on purpose. A statement about the platform is not
@@ -47,6 +48,7 @@ Every file carries YAML front matter:
 | `nextStep` | yes | One next step for the reader: `kind` (`related` or `start`; `none` fails the click-path check), `target`, `text`. See the rules below. |
 | `status` | no | `available` or `in-development`. Product pages only; renders as a badge. |
 | `qa` | if `kind: faq` | Array of `{question, answer}`. Emitted as `FAQPage` structured data. |
+| `image` | no | Articles only. One to three PNG paths in `figures/`, one per aspect ratio. See [Data figures and page images](#data-figures-and-page-images). |
 
 Canonical URLs are **derived** (`/kb/<slug>`), not stored. Don't add a
 `canonicalUrl` field.
@@ -233,8 +235,12 @@ copy thresholds into this repository as though they were canonical.
 
    The website draws the screen from code on sample data and puts the label
    "Example record · sample data" on it. It is never a screenshot and never a
-   real customer's record; do not add screenshots or images to the knowledge
-   base. `screen` is one of `record`, `calendar`, `customer`, `asset`, `walk`,
+   real customer's record. Do not add screenshots of the product to the
+   knowledge base. The only image files are the data figures and page images in
+   `content/figures/`; see
+   [Data figures and page images](#data-figures-and-page-images).
+
+   `screen` is one of `record`, `calendar`, `customer`, `asset`, `walk`,
    `send` or `maintenance-status`. Use each screen at most once per page. The
    tag takes no children and no other attributes: bcp-web owns each screen's
    caption words (`lib/kb-demos.ts`), so write the prose around it to stand
@@ -297,6 +303,78 @@ as which vehicle systems are cited most often, under these rules:
    pricing or business figures.
 5. **No claims about safety or compliance.** A finding describes what
    inspectors cited, not whether any vehicle or carrier is safe or compliant.
+
+## Data figures and page images
+
+A page may show its own data as a picture, but only with a text twin: the
+markdown table directly under the picture states everything the picture shows.
+Readers and machines that cannot see the picture read the table, and the `.md`
+and `.json` copies and `llms-full.txt` keep the caption, the source line and the
+table but drop the picture.
+
+```mdx
+<KbDataFigure src="figures/cited-systems.png" alt="Brakes lead the cited systems. The table below gives each system." caption="Brakes are the most cited vehicle system" source="FMCSA vehicle inspection data" asOf="2026-09-27" table="cited-systems" tableCaption="Cited units by system" />
+
+| System | Share of cited units |
+| --- | ---: |
+| Brakes | 30% |
+```
+
+The tag takes exactly these attributes, each required and non-empty:
+
+| Attribute | What it holds |
+| --- | --- |
+| `src` | The image file: `figures/<name>.png` or `figures/<name>.svg`, a kebab-case name in `content/figures/`. Never a URL or a `..` path. The file must exist and pass the image-file rules below. |
+| `alt` | What the picture shows, ending by naming the table under it ("… the table below gives each system."). |
+| `caption` | The finding the figure states. |
+| `source` | The dataset the figure is drawn from. |
+| `asOf` | The data date, a real `YYYY-MM-DD` date. |
+| `table` | A kebab-case id for the twin table, unique on the page. Neither the id nor `<id>-caption` may equal the id of a `##` heading on the page. |
+| `tableCaption` | What the table holds, shown above it. |
+
+The validator rejects:
+
+- any other attribute, an attribute given twice, an empty one, or a value with
+  a double quote or a backtick in it;
+- a tag that does not start at the beginning of its own line and end with
+  `/>` (only spaces or tabs may follow), including one that is indented, in a
+  heading, in a paragraph, in inline code, or with children. To show the tag as
+  an example, put it in a fenced code block;
+- a figure whose next block is not a markdown table: a header row, then a
+  delimiter row with the same number of cells. A twin table has at most 8
+  columns;
+- any component, a figure included, in `qa`.
+
+Right-align a number column (`---:`) so the site end-aligns it; the validator
+does not check this. The rules for the page's track apply to a figure as they
+do to prose: the caption, source and table say exactly what the number is.
+
+**Image files.** Every file in `content/figures/` is a kebab-case `.png` or
+`.svg` and declares its provenance as an IPTC `DigitalSourceType` in its XMP
+metadata (`http://cv.iptc.org/newscodes/digitalsourcetype/<code>`): a chart
+drawn from data is `dataDrivenMedia`, a generated image
+`trainedAlgorithmicMedia` (any code in the IPTC list is accepted; these are
+the two to use). In a PNG, write the XMP as an uncompressed `iTXt`
+chunk so it can be read. An SVG gives its size (`width` and `height`, or a
+`viewBox`) and is a plain drawing: no `<script>`, event handler (`on…=`),
+`<foreignObject>`, `href` or `url()` to anything but a `#` fragment in the same
+file, `@import`, `javascript:` or `<!ENTITY`. The folder holds no
+subdirectories.
+
+**Page images.** An article may name its share images in front matter:
+
+```yaml
+image:
+  - figures/cited-systems-16x9.png
+  - figures/cited-systems-4x3.png
+  - figures/cited-systems-1x1.png
+```
+
+One to three PNG files from `content/figures/`, each listed once, each at least
+50,000 pixels, and each 16:9, 4:3 or 1:1, with one file per ratio. The 16:9 file
+comes first; it is the page's share image. FAQ pages take no `image`.
+
+The slug `figures` is reserved, because `/kb/figures/` serves the image files.
 
 ## Rules for business content
 
