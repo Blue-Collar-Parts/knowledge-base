@@ -313,12 +313,40 @@ Readers and machines that cannot see the picture read the table, and the `.md`
 and `.json` copies and `llms-full.txt` keep the caption, the source line and the
 table but drop the picture.
 
-```mdx
-<KbDataFigure src="figures/cited-systems.png" alt="Brakes lead the cited systems. The table below gives each system." caption="Brakes are the most cited vehicle system" source="FMCSA vehicle inspection data" asOf="2026-09-27" table="cited-systems" tableCaption="Cited units by system" />
+The twin says everything. A reader who never sees the picture loses nothing,
+and a fact that is only in the picture is a mistake on the page. The twin sits
+in the page body, never behind a tab or an accordion.
 
-| System | Share of cited units |
-| --- | ---: |
-| Brakes | 30% |
+### What each format is for
+
+A page uses a format only when it answers the page's question, never because
+this list allows it.
+
+| Format | What it is for | Its text twin | Pages that use it |
+| --- | --- | --- | --- |
+| Spec table | A manufacturer's value, one row per engine generation or model year, each row citing its document (maintenance rule 4). | It is text. | Spec pages |
+| Requirement table | What a rule requires: what, who, how often, how long to keep it. Each row cites its CFR section and links eCFR, and no row restates an Appendix A threshold. | It is text. | Regulatory and form pages |
+| Checklist table | The items a visit covers, in an order a technician can work from (maintenance rule 2). | It is text. | Generator and marine, form, spec and problem pages; on a spec page, only where the manufacturer's document gives one |
+| Data figure (`<KbDataFigure>`) | One finding from FMCSA's public inspection data, shown as a horizontal bar mix. | The table directly under it, with each row's count. | Problem and data pages |
+| Page image (`image`) | The page's share image. Today that is a spec card: one engine, its headline value and the source document. | The spec table at the top of the page. The card shows nothing the table does not. | Spec pages about one engine |
+| Product screen (`<Demo>`) | The product's own screen, drawn from code on sample data (product rule 5). | The prose around it; on a form page, also the requirement or checklist table. | Any track |
+| Status badge (`<Status>`) | A record's state, in the record's own words (product rule 4). | Its words. | Product track |
+
+The validator checks the tags and files below. Which format a page type
+carries is checked in review: the validator accepts `image` on any article,
+but review keeps it to one-engine spec pages, and a page that names two
+engines carries no card. A form page never promises a PDF, a printable
+template or a download; its requirement or checklist table answers those
+searches.
+
+### The `<KbDataFigure>` tag
+
+```mdx
+<KbDataFigure src="figures/cited-systems.png" alt="Among cited units, brakes lead at 30.0%. The table below gives each system." caption="Among cited units, 30.0% were cited for brakes." source="FMCSA vehicle inspection data, inspections 2025-09-28 to 2026-09-27, cited units" asOf="2026-09-27" table="cited-systems" tableCaption="Cited units by system" />
+
+| System | Cited units | Share of cited units |
+| --- | ---: | ---: |
+| Brakes | 1,200 | 30.0% |
 ```
 
 The tag takes exactly these attributes, each required and non-empty:
@@ -326,9 +354,9 @@ The tag takes exactly these attributes, each required and non-empty:
 | Attribute | What it holds |
 | --- | --- |
 | `src` | The image file: `figures/<name>.png` or `figures/<name>.svg`, a kebab-case name in `content/figures/`. Never a URL or a `..` path. The file must exist and pass the image-file rules below. |
-| `alt` | What the picture shows, ending by naming the table under it ("… the table below gives each system."). |
+| `alt` | The finding, not the picture, ending by naming the table under it ("… the table below gives each system."). See rule 5 under [Captions, alt text and the numbers](#captions-alt-text-and-the-numbers). |
 | `caption` | The finding the figure states. |
-| `source` | The dataset the figure is drawn from. |
+| `source` | The dataset, the inspection window and the population the figure is drawn from. |
 | `asOf` | The data date, a real `YYYY-MM-DD` date. |
 | `table` | A kebab-case id for the twin table, unique on the page. Neither the id nor `<id>-caption` may equal the id of a `##` heading on the page. |
 | `tableCaption` | What the table holds, shown above it. |
@@ -350,7 +378,43 @@ Right-align a number column (`---:`) so the site end-aligns it; the validator
 does not check this. The rules for the page's track apply to a figure as they
 do to prose: the caption, source and table say exactly what the number is.
 
-**Image files.** Every file in `content/figures/` is a kebab-case `.png` or
+### Captions, alt text and the numbers
+
+These hold for the figure, its table, its caption and its alt text alike, on
+top of the [rules for analysis of public FMCSA data](#rules-for-analysis-of-public-fmcsa-data).
+The validator checks that the alt text ends by naming the table, and its
+private-number scan covers a figure's caption, alt text and table like any
+other page text. Review checks the rest.
+
+1. **Real numbers only.** Every bar is a value computed from FMCSA's public data
+   on a stated date. None is typed in, and none is carried over from an older
+   window without saying so. Give shares to one decimal place, and make the
+   picture show exactly the table's values.
+2. **The window is on the figure.** The source line gives the dataset, the
+   inspection window and the population, for example "FMCSA vehicle inspection
+   data, inspections 2025-10-19 to 2026-10-18, cited tractors".
+3. **Every row carries its count.** When a figure compares bands, the caption
+   gives the smallest and largest count. A band with no data reads "not enough
+   data", never zero.
+4. **The caption's first sentence is the finding, in words,** using the mix
+   wording: "Among cited tractors aged 15 or more, X% had a lighting
+   violation." Never "more likely", "at risk", "riskier", "safer", "clean",
+   "compliant", "passed" or "certified", and no verb that implies a trend or a
+   cause, such as "rises", "increases" or "drives". Give the values and let the
+   reader compare them. A rate appears only where FMCSA rule 2 allows one.
+5. **Alt text states the finding, not the picture.** "Bar chart" is not alt
+   text. Name the population and the unit of every band ("cited tractors aged
+   0–2 years"), give the finding and the range, and end by naming the table
+   that holds the full rows.
+6. **Bars follow the table,** in its row order: age bands youngest first,
+   categories largest first. Use at most eight bars, and label every value.
+7. **Bars carry no status colour.** Use a data colour or a neutral, never
+   green and never a status tone. Status colours appear only on a record's
+   state (`<Status>`, `<Demo>`).
+
+### Image files
+
+Every file in `content/figures/` is a kebab-case `.png` or
 `.svg` and declares its provenance as an IPTC `DigitalSourceType` in its XMP
 metadata (`http://cv.iptc.org/newscodes/digitalsourcetype/<code>`): a chart
 drawn from data is `dataDrivenMedia`, a generated image
@@ -362,7 +426,9 @@ chunk so it can be read. An SVG gives its size (`width` and `height`, or a
 file, `@import`, `javascript:` or `<!ENTITY`. The folder holds no
 subdirectories.
 
-**Page images.** An article may name its share images in front matter:
+### Page images
+
+An article may name its share images in front matter:
 
 ```yaml
 image:
@@ -374,6 +440,22 @@ image:
 One to three PNG files from `content/figures/`, each listed once, each at least
 50,000 pixels, and each 16:9, 4:3 or 1:1, with one file per ratio. The 16:9 file
 comes first; it is the page's share image. FAQ pages take no `image`.
+
+### Every image
+
+Every image, figure or page image, also follows these rules. Review checks
+them; the validator's file rules are under [Image files](#image-files).
+
+- **Made for its page.** An image states that page's own finding or value. Do
+  not use a template image repeated across pages, a stock photo or a
+  decorative header.
+- **No manufacturer logos, photographs or diagrams.** Link them where the
+  manufacturer publishes them, and never copy them onto a card or a page
+  (maintenance rule 4).
+- **No screenshots and no look-alikes of the product.** The product appears
+  only as a `<Demo>` screen drawn from code (product rule 5). An illustration,
+  a generated image or a hand-built copy of a product screen is not allowed.
+- **No new colours.** Use the site's existing data colours and neutrals.
 
 The slug `figures` is reserved, because `/kb/figures/` serves the image files.
 
