@@ -235,7 +235,8 @@ copy thresholds into this repository as though they were canonical.
    "Example record · sample data" on it. It is never a screenshot and never a
    real customer's record; do not add screenshots or images to the knowledge
    base. `screen` is one of `record`, `calendar`, `customer`, `asset`, `walk`,
-   `send` or `maintenance-status`. Use each screen at most once per page. The
+   `send`, `maintenance-status` or `annual-form` (an annual inspection on its
+   form). Use each screen at most once per page. The
    tag takes no children and no other attributes: bcp-web owns each screen's
    caption words (`lib/kb-demos.ts`), so write the prose around it to stand
    on its own. The validator rejects an unknown screen, a screen used twice on a
