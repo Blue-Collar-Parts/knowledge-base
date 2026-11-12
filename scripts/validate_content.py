@@ -196,6 +196,7 @@ DEMO_SCREENS = (
     "walk",
     "send",
     "maintenance-status",
+    "annual-form",
 )
 DEMO_TAG_RE = re.compile(r'^<Demo screen="([^"<>{}\n]*)" />[ \t]*$')
 COMPONENT_TAG_RE = re.compile(r"</?[A-Z][A-Za-z0-9]*\b[^>]*>")

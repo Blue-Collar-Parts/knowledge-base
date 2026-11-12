@@ -313,6 +313,11 @@ def test_every_listed_demo_screen_passes(screen):
     assert check(meta(), body=f'<Demo screen="{screen}" />') == []
 
 
+def test_annual_form_demo_screen_passes():
+    assert "annual-form" in v.DEMO_SCREENS
+    assert check(meta(), body='<Demo screen="annual-form" />') == []
+
+
 def test_different_demo_screens_on_one_page_pass():
     assert check(meta(), body='<Demo screen="record" />\n\nText.\n\n<Demo screen="send" />') == []
 
