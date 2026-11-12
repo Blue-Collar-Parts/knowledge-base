@@ -334,19 +334,73 @@ def test_svg_without_a_size_is_rejected(content):
 
 @pytest.fixture
 def images(content):
-    for name, (w, h) in {"wide": (320, 180), "four-three": (280, 210), "square": (240, 240),
+    for name, (w, h) in {"wide": (320, 180), "wide-4x3": (280, 210), "wide-1x1": (240, 240),
+                         "four-three": (280, 210), "square": (240, 240),
                          "small": (160, 90), "tall": (180, 320)}.items():
         (content / "figures" / f"{name}.png").write_bytes(png(w, h))
     return content
 
 
+# A page whose figure is the 16:9 share image `figures/wide.png`.
+WIDE = page(tag(src="figures/wide.png"))
+
+
 def test_page_images_pass(images):
-    m = meta(image=["figures/wide.png", "figures/four-three.png", "figures/square.png"])
-    assert check(images, "Text.", m) == []
+    m = meta(image=["figures/wide.png", "figures/wide-4x3.png", "figures/wide-1x1.png"])
+    assert check(images, WIDE, m) == []
 
 
 def test_one_page_image_passes(images):
-    assert check(images, "Text.", meta(image=["figures/wide.png"])) == []
+    assert check(images, WIDE, meta(image=["figures/wide.png"])) == []
+
+
+def test_share_image_must_be_a_figure_on_the_page(images):
+    assert has(check(images, "Text.", meta(image=["figures/wide.png"])), 'image "figures/wide.png" is not on the page')
+    other = page(tag(src="figures/cited-systems.png"))
+    assert has(check(images, other, meta(image=["figures/wide.png"])), "is not on the page")
+
+
+def test_share_image_may_be_the_png_of_an_svg_figure(content):
+    (content / "figures" / "cited-systems.png").write_bytes(png(320, 180))
+    body = page(tag(src="figures/cited-systems.svg"))
+    assert check(content, body, meta(image=["figures/cited-systems.png"])) == []
+
+
+def test_a_figure_in_fenced_code_does_not_show_the_share_image(images):
+    body = "```\n" + tag(src="figures/wide.png") + "\n```\n"
+    assert has(check(images, body, meta(image=["figures/wide.png"])), "is not on the page")
+
+
+@pytest.mark.parametrize("files, fragment", [
+    (["figures/wide.png", "figures/square.png"],
+     'image "figures/square.png" must be a crop of "figures/wide.png", named "figures/wide-1x1.png"'),
+    (["figures/wide.png", "figures/four-three.png"], 'named "figures/wide-4x3.png"'),
+    # The suffix is keyed to the crop's own ratio, not to its position.
+    (["figures/wide.png", "figures/wide-4x3.png", "figures/four-three.png"], "two 4:3 files"),
+])
+def test_crops_are_named_after_the_share_image(images, files, fragment):
+    assert has(check(images, WIDE, meta(image=files)), fragment)
+
+
+def test_crop_name_must_match_its_ratio(images):
+    (images / "figures" / "wide-1x1.png").write_bytes(png(280, 210))  # 4:3 under a 1:1 name
+    assert has(check(images, WIDE, meta(image=["figures/wide.png", "figures/wide-1x1.png"])),
+               'named "figures/wide-4x3.png"')
+
+
+def test_a_shape_error_is_reported_before_the_page_check(images):
+    errs = check(images, "Text.", meta(image=["figures/tall.png"]))
+    assert has(errs, "16:9, 4:3 or 1:1")
+    assert not has(errs, "is not on the page")
+
+
+def test_readme_page_image_example_passes(content):
+    """The README's `image` example, beside the figure it names."""
+    for name, (w, h) in {"cited-systems": (1200, 675), "cited-systems-4x3": (1200, 900),
+                         "cited-systems-1x1": (1200, 1200)}.items():
+        (content / "figures" / f"{name}.png").write_bytes(png(w, h))
+    m = meta(image=["figures/cited-systems.png", "figures/cited-systems-4x3.png", "figures/cited-systems-1x1.png"])
+    assert check(content, page(tag(src="figures/cited-systems.svg")), m) == []
 
 
 @pytest.mark.parametrize("files, fragment", [

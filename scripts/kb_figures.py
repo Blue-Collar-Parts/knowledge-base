@@ -7,7 +7,9 @@ picture read the table, so a figure without its twin is rejected.
 
 A page image is the `image` front matter of an article: one to three PNG files
 in `content/figures/`, one per aspect ratio (16:9, 4:3, 1:1), the 16:9 file
-first.
+first. It is shown on the page: the 16:9 file is the PNG of a figure on the
+same page, and the others are crops of it, named `<name>-4x3.png` and
+`<name>-1x1.png`.
 
 Every image file declares its provenance as an IPTC DigitalSourceType in its
 XMP packet: a chart drawn from data is `dataDrivenMedia`, a generated image
@@ -221,7 +223,7 @@ def _aspect_ratio(width: float, height: float) -> str | None:
     return None
 
 
-def check_page_images(meta: dict, content_dir: Path) -> list[str]:
+def check_page_images(meta: dict, content_dir: Path, body: str) -> list[str]:
     """`image`: one to three PNGs in figures/, articles only, one per ratio, the 16:9 first."""
     if "image" not in meta:
         return []
@@ -234,7 +236,7 @@ def check_page_images(meta: dict, content_dir: Path) -> list[str]:
         return ["`image` is for articles; FAQ pages take no image"]
     if len(set(files)) != len(files):
         return ["`image` lists a file twice"]
-    ratios: set[str] = set()
+    ratios: dict[str, str] = {}
     for index, file in enumerate(files):
         try:
             width, height = _read_image_file(content_dir, file, PAGE_IMAGE_FILE_RE, "PNG", "image")
@@ -248,9 +250,40 @@ def check_page_images(meta: dict, content_dir: Path) -> list[str]:
             return [f'image "{file}" is {size}; a page image is 16:9, 4:3 or 1:1']
         if index == 0 and ratio != "16:9":
             return [f'image "{file}" is {ratio}; the first page image is the 16:9 share image']
-        if ratio in ratios:
+        if ratio in ratios.values():
             return [f"`image` lists two {ratio} files; give one per aspect ratio"]
-        ratios.add(ratio)
+        ratios[file] = ratio
+    return check_page_images_shown(files, ratios, data_figure_sources(body))
+
+
+def _file_stem(file: str) -> str:
+    return re.sub(r"\.(?:png|svg)$", "", file.rsplit("/", 1)[-1])
+
+
+# The name suffix a crop of the 16:9 share image carries, by its ratio.
+_CROP_SUFFIX = {"4:3": "-4x3", "1:1": "-1x1"}
+
+
+def check_page_images_shown(files: list[str], ratios: dict[str, str], figure_sources: list[str]) -> list[str]:
+    """A page image is shown on the page: structured data marks up only what a reader sees.
+
+    The 16:9 share image is the PNG of a <KbDataFigure> on the same page (same
+    name; the figure itself may be the SVG). The 4:3 and 1:1 entries are crops of
+    it, named `<name>-4x3.png` and `<name>-1x1.png`. The name is all this can
+    check: it cannot prove a crop's pixels come from the figure. `ratios` maps
+    each file to its ratio, from the shape checks that run first.
+    """
+    share, *crops = files
+    name = _file_stem(share)
+    if not any(_file_stem(src) == name for src in figure_sources):
+        return [
+            f'image "{share}" is not on the page; the 16:9 share image must be the PNG of a '
+            f'<KbDataFigure> on this page (src "{FIGURE_DIR}/{name}.png" or "{FIGURE_DIR}/{name}.svg")'
+        ]
+    for crop in crops:
+        suffix = _CROP_SUFFIX[ratios[crop]]
+        if _file_stem(crop) != f"{name}{suffix}":
+            return [f'image "{crop}" must be a crop of "{share}", named "{FIGURE_DIR}/{name}{suffix}.png"']
     return []
 
 
@@ -319,6 +352,18 @@ def _table_columns(lines: list[str], start: int) -> int | None:
         return None
     columns = len(_table_cells(header))
     return columns if columns == len(_table_cells(delimiter)) else None
+
+
+def data_figure_sources(body: str) -> list[str]:
+    """The src of each figure in the body, outside fenced code. A tag that does not
+    parse is skipped: check_data_figures reports it."""
+    sources = []
+    for match in TAG_RE.finditer(mask_fenced_code(body)):
+        try:
+            sources.append(parse_attributes(match.group(1))["src"])
+        except (FigureError, KeyError):
+            continue
+    return sources
 
 
 def check_data_figures(body: str, content_dir: Path) -> list[str]:

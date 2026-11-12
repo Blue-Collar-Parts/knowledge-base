@@ -388,7 +388,7 @@ def validate_page(
     errs.extend(_check_next_step(meta, stem, all_slugs))
     errs.extend(_check_components(meta, body, track))
     errs.extend(kb_figures.check_data_figures(body, content_dir))
-    errs.extend(kb_figures.check_page_images(meta, content_dir))
+    errs.extend(kb_figures.check_page_images(meta, content_dir, body))
 
     for linked in _kb_link_slugs(body):
         if linked not in all_slugs:

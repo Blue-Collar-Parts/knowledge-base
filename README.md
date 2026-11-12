@@ -432,7 +432,7 @@ An article may name its share images in front matter:
 
 ```yaml
 image:
-  - figures/cited-systems-16x9.png
+  - figures/cited-systems.png
   - figures/cited-systems-4x3.png
   - figures/cited-systems-1x1.png
 ```
@@ -440,6 +440,14 @@ image:
 One to three PNG files from `content/figures/`, each listed once, each at least
 50,000 pixels, and each 16:9, 4:3 or 1:1, with one file per ratio. The 16:9 file
 comes first; it is the page's share image. FAQ pages take no `image`.
+
+A page image is shown on the page. The 16:9 file is the PNG of a
+`<KbDataFigure>` on the same page, with the same file name:
+`figures/cited-systems.png` goes with a figure whose `src` is
+`figures/cited-systems.png` or `figures/cited-systems.svg`. The 4:3 and 1:1
+files are crops of it, named `<name>-4x3.png` and `<name>-1x1.png`, each after
+its own ratio. The validator checks the names; review checks that each crop
+really is the figure.
 
 ### Every image
 
