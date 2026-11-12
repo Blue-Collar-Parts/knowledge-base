@@ -277,7 +277,10 @@ copy thresholds into this repository as though they were canonical.
    - **If two documents disagree,** give both with their citations, or give neither.
    - **Tell the reader to confirm** against the documentation for their specific
      serial number or build.
-   - **Link the manufacturer's tables, diagrams and procedure text.** Never copy them.
+   - **Restate only the figures the job needs.** A spec table may carry them,
+     with a source and link on every row. Never reproduce a manufacturer's
+     table whole, its layout or its notes. Link diagrams and procedure text;
+     never copy them.
 
    This rule covers only values the manufacturer publishes. It does not lift
    rule 2 for checklists BCP writes itself, and it does not apply to Appendix A
