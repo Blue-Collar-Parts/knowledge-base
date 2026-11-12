@@ -156,9 +156,13 @@ and on
 Pages here are drafted with AI. That is not a problem in itself; publishing
 many pages that add nothing for the reader is.
 
-1. **Nothing on a page implies a person wrote or reviewed it.** Don't invent a
-   reviewer, a credential, or first-hand experience ("in our experience", "our
-   technicians found"). There is no `reviewedBy` field.
+1. **Nothing on a page claims more than happened.** Every page is drafted with
+   AI, and a person at Blue Collar Parts reads it before the pull request that
+   publishes it is merged. `using-this-knowledge-base-with-ai` says so once,
+   for the whole knowledge base. Don't add a reviewer's name, a credential, or
+   first-hand experience ("in our experience", "our technicians found"), and
+   don't write that a page is certified or verified. There is no `reviewedBy`
+   field.
 2. **Fact-check the whole page, front matter included.** `title` and
    `description` become the page title, the meta description and the
    structured data, so they get the same check as the body. Regulatory claims

@@ -1,13 +1,13 @@
 ---
 slug: using-this-knowledge-base-with-ai
 title: "Using This Knowledge Base with LLMs and Agents"
-description: "Every page here is available as clean Markdown and JSON, indexed by llms.txt, licensed CC BY 4.0, and versioned in a public Git repository. How to ingest it and how to cite it."
+description: "Every page here is available as clean Markdown and JSON, indexed by llms.txt, licensed CC BY 4.0, and versioned in a public Git repository. How to ingest it, how to cite it, and how it is made."
 track: product
 kind: article
 order: 50
 isRegulatoryAdjacent: false
 publishedAt: 2026-09-01
-updatedAt: 2026-09-01
+updatedAt: 2026-11-12
 cfr: []
 related:
   - what-is-blue-collar-parts
@@ -19,6 +19,15 @@ nextStep:
 ---
 
 This knowledge base is built to be read by machines as readily as by people. Nothing here is behind a rendering step, a paywall, or a JavaScript bundle you have to execute to get the text.
+
+## How is this knowledge base made?
+
+Every page is drafted with AI, and a person at Blue Collar Parts reads it before it is published.
+
+- **Drafted with AI.** An AI model writes the first draft of each page, including its title and description. We use it so the knowledge base can cover each inspection and record-keeping job, and so a page can be updated when the regulation it describes changes.
+- **Read by a person before it goes live.** A page is published by merging a pull request in the public repository. A person at Blue Collar Parts reads the page, front matter included, before that merge. No page names a reviewer, and that read does not certify the page.
+- **Regulatory sources come from the eCFR.** Each regulatory page names the CFR sections it relies on. The section headings and the eCFR edition in its Sources block come from a snapshot of the eCFR, not from the draft. Pages that cite no regulation have no eCFR sources.
+- **Every change is public.** Each edit is a commit in the repository, so you can see what changed and when. If something is wrong, open an issue there.
 
 ## Endpoints
 
