@@ -352,17 +352,72 @@ searches.
 | Brakes | 1,200 | 30.0% |
 ```
 
-The tag takes exactly these attributes, each required and non-empty:
+A figure is either an image or a chart drawn from its table. It takes one form
+or the other, never both. The attributes below are required and non-empty in
+both forms:
 
 | Attribute | What it holds |
 | --- | --- |
-| `src` | The image file: `figures/<name>.png` or `figures/<name>.svg`, a kebab-case name in `content/figures/`. Never a URL or a `..` path. The file must exist and pass the image-file rules below. |
-| `alt` | The finding, not the picture, ending by naming the table under it ("… the table below gives each system."). See rule 5 under [Captions, alt text and the numbers](#captions-alt-text-and-the-numbers). |
 | `caption` | The finding the figure states. |
 | `source` | The dataset, the inspection window and the population the figure is drawn from. |
 | `asOf` | The data date, a real `YYYY-MM-DD` date. |
 | `table` | A kebab-case id for the twin table, unique on the page. Neither the id nor `<id>-caption` may equal the id of a `##` heading on the page. |
 | `tableCaption` | What the table holds, shown above it. |
+
+An **image** figure also takes:
+
+| Attribute | What it holds |
+| --- | --- |
+| `src` | The image file: `figures/<name>.png` or `figures/<name>.svg`, a kebab-case name in `content/figures/`. Never a URL or a `..` path. The file must exist and pass the image-file rules below. |
+| `alt` | The finding, not the picture, ending by naming the table under it ("… the table below gives each system."). See rule 5 under [Captions, alt text and the numbers](#captions-alt-text-and-the-numbers). |
+
+The validator here checks the image form and the rules that follow it. It does
+not yet accept the chart form below: the site's build does, and a page that uses
+it fails this repository's validation until the validator catches up
+(bcp-web#1442).
+
+#### The drawn bar mix
+
+A **chart** figure is drawn by the site from the table under it, so it needs no
+image file. It takes:
+
+| Attribute | What it holds |
+| --- | --- |
+| `chart` | `bar-mix`, the only chart there is: one horizontal bar per table row. |
+| `population` | The noun the bar tooltips end with, naming who the rows count: `cited tractors`. |
+| `fill` | Optional. `data` (the default) for bands such as age. `system` when every row is an equipment system. |
+
+A chart takes no `src` and no `alt`. The table is its only data and its text
+twin, and `tableCaption` names it. `caption`, `source`, `asOf`, `table` and
+`tableCaption` are required, as above.
+
+```mdx
+<KbDataFigure chart="bar-mix" population="cited tractors" caption="…" source="…" asOf="2026-11-12" table="age-mix" tableCaption="Cited tractors by age band" />
+
+| Age | Share | Cited | Inspected |
+| --- | ---: | ---: | ---: |
+| 15+ years | 44.7% | 64,705 | 144,671 |
+```
+
+The table under a bar mix has exactly four columns, in this order: label,
+share, count, n. It has one to eight rows, and each row is checked:
+
+- The label is plain text, with no markdown characters (`* _ ` + "`" + ` [ ] < > \ | ~`) and no `&`, and no two rows share one.
+- The share is written to one decimal place with a percent sign (`44.7%`), or
+  as `Not enough data`, which draws no bar.
+- The count and n are whole numbers, written plain (`64705`) or with thousands
+  commas (`64,705`), n is more than 0, and the count is at most n.
+- The share agrees with count ÷ n to within 0.05.
+
+A label written exactly as an equipment system's name (for example
+`Lighting Devices`, `Brake System` or `Tires`) shows that system's symbol. With
+`fill="system"`, every row must be one, each named once; never mix systems with
+bands in one chart.
+
+A drawn chart is not an image file. It does not go in front matter `image`, and
+it adds nothing to `content/figures/`. The rules under
+[Captions, alt text and the numbers](#captions-alt-text-and-the-numbers) hold for
+it as for an image, except the alt-text rule, since a chart has no alt text.
 
 The validator rejects:
 
@@ -398,7 +453,7 @@ other page text. Review checks the rest.
    data, inspections 2025-10-19 to 2026-10-18, cited tractors".
 3. **Every row carries its count.** When a figure compares bands, the caption
    gives the smallest and largest count. A band with no data reads "not enough
-   data", never zero.
+   data", never zero; in a bar mix's table the share cell is exactly `Not enough data`.
 4. **The caption's first sentence is the finding, in words,** using the mix
    wording: "Among cited tractors aged 15 or more, X% had a lighting
    violation." Never "more likely", "at risk", "riskier", "safer", "clean",
