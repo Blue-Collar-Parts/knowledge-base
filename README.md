@@ -139,8 +139,8 @@ request. It checks the front matter and the rules above, that internal links
 (`/kb/<slug>`) resolve, that every page meets the click-path standard, and that
 page text does not pair a number with
 Blue Collar Parts' own private figures (search or keyword data, traffic,
-sign-ups, scores, revenue or customer counts). Aggregates of public FMCSA data
-are not affected. Run it locally:
+sign-ups, scores, revenue or customer counts). Aggregates of public FMCSA,
+BLS and Census data are not affected. Run it locally:
 
 ```sh
 pip install -r requirements-dev.txt
@@ -286,27 +286,54 @@ copy thresholds into this repository as though they were canonical.
    rule 2 for checklists BCP writes itself, and it does not apply to Appendix A
    thresholds (see the regulatory rules above).
 
-## Rules for analysis of public FMCSA data
+## Rules for analysis of public FMCSA, BLS and Census data
 
-Any page may publish findings computed from FMCSA's public inspection data, such
-as which vehicle systems are cited most often, under these rules:
+Any page may publish findings computed from these public sources:
 
-1. **Aggregates only.** Never a figure for one carrier, vehicle, VIN or
-   inspection.
+- **FMCSA:** roadside inspection data (for example, which vehicle systems are
+  cited most often) and the Company Census of registered carriers.
+- **Bureau of Labor Statistics (BLS):** Occupational Employment and Wage
+  Statistics (OEWS) and the Quarterly Census of Employment and Wages (QCEW).
+- **Census Bureau:** County Business Patterns (CBP), Nonemployer Statistics and
+  the Building Permits Survey.
+
+Every finding follows these rules:
+
+1. **Aggregates only.** Never a figure for one carrier, vehicle, VIN,
+   inspection, business or establishment. A cell the source withholds or
+   suppresses reads "withheld", never 0.
 2. **Say exactly what the number is.**
-   - Shares of violations are a mix among cited units ("of units cited for a
-     vehicle violation, X% were cited for lighting"), never a rate or a
+   - Shares of FMCSA violations are a mix among cited units ("of units cited
+     for a vehicle violation, X% were cited for lighting"), never a rate or a
      likelihood.
    - Only the share of inspections that found a vehicle violation, or put a
      vehicle out of service, may be stated as a rate.
+   - OEWS counts wage-and-salary jobs and leaves out the self-employed: say
+     "employed as …", and name the wage measure ("mean annual wage", "median
+     annual wage") and the occupation by its BLS title.
+   - CBP counts establishments with paid employees and leaves out one-person
+     businesses, which Nonemployer Statistics counts. An establishment is one
+     location, not a company, and never a count of technicians.
+   - A figure built from two sources, such as power units per diesel
+     technician, names both sources and both dates, and says what each side
+     counts (FMCSA Company Census power units are counted where the carrier is
+     based).
+   - Write "per technician" or "technicians employed", not "share of
+     technicians": the validator reads "technician share" next to a number as
+     a private Blue Collar Parts figure.
 3. **State the method, the source dataset and the date window** on the page,
    next to the numbers. For example: "FMCSA vehicle inspection data, inspections
-   from 2025-09-28 to 2026-09-27, one current version per inspection; mix among
-   cited units."
+   from 2025-11-21 to 2026-11-20, one current version per inspection; mix among
+   cited units", "BLS Occupational Employment and Wage Statistics, May 2025
+   state estimates; mean annual wage", or "Census County Business Patterns 2023;
+   establishments with paid employees".
 4. **Nothing from Blue Collar Parts' own data:** no search, traffic, customer,
-   pricing or business figures.
-5. **No claims about safety or compliance.** A finding describes what
-   inspectors cited, not whether any vehicle or carrier is safe or compliant.
+   technician, pricing or business figures.
+5. **No claims about safety, compliance or cause.** An FMCSA finding describes
+   what inspectors cited, not whether any vehicle or carrier is safe or
+   compliant. A wage or a count describes the source's population on its date:
+   never a forecast, a trend from one release, or a claim about what Blue Collar
+   Parts does for a technician's pay or business.
 
 ## Data figures and page images
 
@@ -330,7 +357,7 @@ this list allows it.
 | Spec table | A manufacturer's value, one row per engine generation or model year, each row citing its document (maintenance rule 4). | It is text. | Spec pages |
 | Requirement table | What a rule requires: what, who, how often, how long to keep it. Each row cites its CFR section and links eCFR, and no row restates an Appendix A threshold. | It is text. | Regulatory and form pages |
 | Checklist table | The items a visit covers, in an order a technician can work from (maintenance rule 2). | It is text. | Generator and marine, form, spec and problem pages; on a spec page, only where the manufacturer's document gives one |
-| Data figure (`<KbDataFigure>`) | One finding from FMCSA's public inspection data, shown as a horizontal bar mix. | The table directly under it, with each row's count. | Problem and data pages |
+| Data figure (`<KbDataFigure>`) | One finding from public FMCSA, BLS or Census data, shown as a horizontal bar mix. | The table directly under it, with each row's count. | Problem and data pages |
 | Page image (`image`) | The page's share image. Today that is a spec card: one engine, its headline value and the source document. | The spec table at the top of the page. The card shows nothing the table does not. | Spec pages about one engine |
 | Product screen (`<Demo>`) | The product's own screen, drawn from code on sample data (product rule 5). | The prose around it; on a form page, also the requirement or checklist table. | Any track |
 | Status badge (`<Status>`) | A record's state, in the record's own words (product rule 4). | Its words. | Product track |
@@ -439,18 +466,19 @@ do to prose: the caption, source and table say exactly what the number is.
 ### Captions, alt text and the numbers
 
 These hold for the figure, its table, its caption and its alt text alike, on
-top of the [rules for analysis of public FMCSA data](#rules-for-analysis-of-public-fmcsa-data).
+top of the [rules for analysis of public FMCSA, BLS and Census data](#rules-for-analysis-of-public-fmcsa-bls-and-census-data).
 The validator checks that the alt text ends by naming the table, and its
 private-number scan covers a figure's caption, alt text and table like any
 other page text. Review checks the rest.
 
-1. **Real numbers only.** Every bar is a value computed from FMCSA's public data
+1. **Real numbers only.** Every bar is a value computed from the public data above
    on a stated date. None is typed in, and none is carried over from an older
    window without saying so. Give shares to one decimal place, and make the
    picture show exactly the table's values.
 2. **The window is on the figure.** The source line gives the dataset, the
    inspection window and the population, for example "FMCSA vehicle inspection
-   data, inspections 2025-10-19 to 2026-10-18, cited tractors".
+   data, inspections 2025-10-19 to 2026-10-18, cited tractors" or "BLS OEWS,
+   May 2025 state estimates, diesel technicians employed".
 3. **Every row carries its count.** When a figure compares bands, the caption
    gives the smallest and largest count. A band with no data reads "not enough
    data", never zero; in a bar mix's table the share cell is exactly `Not enough data`.
